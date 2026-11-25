@@ -45,7 +45,7 @@ const select=$("#labLanguage"),editor=$("#codeEditor");select.value=lang;editor.
 function run(){
 const mode=select.value,code=editor.value,frame=$("#codeOutput");
 if(["html","css","javascript"].includes(mode)){
-let page=mode==="html"?code:mode==="css"?'<!doctype html><html><head><style>'+code+'</style></head><body><h1>Mon aperçu CSS</h1><p>Modifie les styles pour observer le résultat.</p></body></html>':'<!doctype html><html><body><h1>Console JavaScript</h1><pre id="log"></pre><script>const log=(...v)=>document.querySelector("#log").textContent+=v.join(" ")+"\\n";console.log=log;try{'+code+'}catch(e){log(e.message)}<\\/script></body></html>';
+let page=mode==="html"?code:mode==="css"?'<!doctype html><html><head><style>'+code+'</style></head><body><h1>Mon aperçu CSS</h1><p>Modifie les styles pour observer le résultat.</p></body></html>':'<!doctype html><html><body><h1>Console JavaScript</h1><pre id="log"></pre><script>const log=(...v)=>document.querySelector("#log").textContent+=v.join(" ")+"\\n";console.log=log;try{'+code+'}catch(e){log(e.message)}<\/script></body></html>';
 frame.srcdoc=page;$("#labStatus").textContent="Exécuté dans l’aperçu";$("#labNote").textContent="Aperçu local isolé. Les scripts n’ont pas accès au compte ni aux données du site.";
 }else{
 frame.srcdoc='<!doctype html><html><body style="font:14px system-ui;padding:18px;color:#334"><h3>Environnement non activé</h3><p>Le code '+safe(mode.toUpperCase())+' reste dans l’éditeur, mais ce langage nécessite un moteur dédié qui n’est pas encore intégré.</p></body></html>';

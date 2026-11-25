@@ -85,6 +85,7 @@
 
   const initialView = location.hash.replace("#", "");
   if (views.includes(initialView)) showView(initialView);
+  else showView("accueil");
 
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));

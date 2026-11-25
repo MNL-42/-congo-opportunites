@@ -1,32 +1,46 @@
 (() => {
-  const cfg = window.CONGO_CONFIG || {};
-  let client = null;
-  const message = (text) => {
-    const node = document.getElementById("authMessage");
-    if (node) node.textContent = text;
-  };
-  const configured = Boolean(cfg.supabaseUrl && cfg.supabaseAnonKey && window.supabase?.createClient);
-  if (configured) {
-    client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
-    window.CONGO_AUTH = {
-      client,
-      signIn: async () => {
-        message("Connexion sécurisée en cours…");
-        const { error } = await client.auth.signInWithOAuth({
-          provider: "google",
-          options: { redirectTo: window.location.href.split("#")[0] }
-        });
-        if (error) message("Connexion impossible : " + error.message);
-      },
-      signOut: async () => client.auth.signOut()
-    };
-    client.auth.getSession().then(({ data }) => window.dispatchEvent(new CustomEvent("congo-auth-ready", { detail: data.session })));
-    client.auth.onAuthStateChange((_event, session) => window.dispatchEvent(new CustomEvent("congo-auth-ready", { detail: session })));
-  } else {
-    window.CONGO_AUTH = {
-      client: null,
-      signIn: async () => message("La connexion Google n'est pas encore activée. L'équipe doit d'abord configurer Supabase et Google OAuth dans les paramètres du projet."),
-      signOut: async () => {}
-    };
+  let supabaseClient = null;
+  const config = window.APP_CONFIG || {};
+  const hasConfig = Boolean(config.SUPABASE_URL && config.SUPABASE_ANON_KEY);
+  const sdkReady = Boolean(window.supabase && window.supabase.createClient);
+
+  if (hasConfig && sdkReady) {
+    supabaseClient = window.supabase.createClient(config.SUPABASE_URL, config.SUPABASE_ANON_KEY);
   }
+
+  const status = (message) => {
+    const node = document.getElementById("authMessage");
+    if (node) node.textContent = message;
+  };
+
+  async function signInWithGoogle() {
+    if (!hasConfig || !supabaseClient) {
+      status("Configuration Supabase manquante. Consulte le fichier README.md.");
+      return;
+    }
+    status("Redirection vers Google…");
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin + window.location.pathname }
+    });
+    if (error) status("Connexion impossible : " + error.message);
+  }
+
+  async function signOut() {
+    if (!supabaseClient) return;
+    await supabaseClient.auth.signOut();
+  }
+
+  async function getSession() {
+    if (!supabaseClient) return null;
+    const { data } = await supabaseClient.auth.getSession();
+    return data.session || null;
+  }
+
+  async function onAuthChange(callback) {
+    if (!supabaseClient) return;
+    supabaseClient.auth.onAuthStateChange((_event, session) => callback(session));
+  }
+
+  window.CongoAuth = { signInWithGoogle, signOut, getSession, onAuthChange, isConfigured: () => Boolean(supabaseClient) };
 })();

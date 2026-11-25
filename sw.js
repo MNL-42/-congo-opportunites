@@ -1,5 +1,5 @@
-const CACHE_NAME = "congo-opportunites-v6";
-const CORE = ["./", "./index.html", "./manifest.json", "./css/style.css", "./css/responsive.css", "./js/config.js", "./js/auth.js", "./js/app.js", "./js/courses/catalogue.js", "./js/course-content.js", "./js/academy.js", "./js/pwa-install.js", "./assets/icons/icon.svg"];
+const CACHE_NAME = "congo-opportunites-v7";
+const CORE = ["./", "./index.html", "./manifest.json", "./css/style.css", "./css/responsive.css", "./js/config.js", "./js/auth.js", "./js/app.js", "./js/courses/catalogue.js", "./js/course-content.js", "./js/academy.js", "./js/pwa-install.js", "./assets/icons/icon.svg", "./assets/icons/icon-180.png", "./assets/og-cover.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE)));
   self.skipWaiting();
@@ -9,7 +9,19 @@ self.addEventListener("activate", event => {
   self.clients.claim();
 });
 self.addEventListener("fetch", event => {
-  if (event.request.method !== "GET" || new URL(event.request.url).origin !== self.location.origin) return;
+  if (event.request.method !== "GET") return;
+  const requestUrl = new URL(event.request.url);
+  if (requestUrl.hostname === "fonts.googleapis.com" || requestUrl.hostname === "fonts.gstatic.com") {
+    event.respondWith(caches.open(CACHE_NAME).then(async cache => {
+      const cached = await cache.match(event.request);
+      if (cached) return cached;
+      const response = await fetch(event.request);
+      if (response.ok || response.type === "opaque") await cache.put(event.request, response.clone());
+      return response;
+    }));
+    return;
+  }
+  if (requestUrl.origin !== self.location.origin) return;
   event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
     if (response.ok) {
       const copy = response.clone();

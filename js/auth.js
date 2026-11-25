@@ -15,15 +15,15 @@
 
   async function signInWithGoogle() {
     if (!hasConfig || !supabaseClient) {
-      status("Configuration Supabase manquante. Consulte le fichier README.md.");
+      status("La connexion n’est pas encore disponible. Réessaie plus tard.");
       return;
     }
-    status("Redirection vers Google…");
+    status("Ouverture de la connexion Google…");
     const { error } = await supabaseClient.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo: window.location.origin + window.location.pathname }
     });
-    if (error) status("Connexion impossible : " + error.message);
+    if (error) status("La connexion n’a pas abouti. Vérifie ta connexion Internet et réessaie.");
   }
 
   async function signOut() {

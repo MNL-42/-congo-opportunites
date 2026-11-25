@@ -21,10 +21,38 @@
     {id:"electronics",icon:"⌁",tone:"mint",category:"Sciences",tag:"INDUSTRIE",title:"Électronique & objets connectés",desc:"Découvre les composants, circuits, capteurs et principes de l'IoT.",level:"Débutant",duration:"5 modules",skills:["Électronique","Capteurs","IoT"],lessons:[["Électricité et sécurité","Tension, courant, résistance et précautions."],["Composants essentiels","Résistances, LED, boutons et condensateurs."],["Lire un schéma","Symboles et connexions de base."],["Microcontrôleurs et capteurs","Découvrir les usages d'une carte programmable."],["Projet pratique","Imaginer un système de mesure simple."]]},
     {id:"agri",icon:"♧",tone:"mint",category:"Sciences",tag:"AGRO-INNOVATION",title:"Agriculture & innovation",desc:"Explore les bases de l'agriculture durable, de la gestion et des outils numériques.",level:"Débutant",duration:"4 modules",skills:["Agriculture","Durabilité","Innovation"],lessons:[["Comprendre les sols et cultures","Notions de sol, eau et choix des cultures."],["Organiser une production","Calendrier, ressources et suivi."],["Agriculture durable","Préserver les ressources et réduire les pertes."],["Numérique agricole","Données météo, suivi et commercialisation."]]}
   ];
+
   let activeCategory="Tous";
   const completed=JSON.parse(localStorage.getItem("co-academy-progress")||"{}");
   const totalLessons=courses.reduce((n,c)=>n+c.lessons.length,0);
   const safe=s=>String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+  const pictures={
+    web:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=900&auto=format&fit=crop&q=80",
+    php:"https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=900&auto=format&fit=crop&q=80",
+    flutter:"https://images.unsplash.com/photo-1551650975-87deedd944c3?w=900&auto=format&fit=crop&q=80",
+    python:"https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=900&auto=format&fit=crop&q=80",
+    ai:"https://images.unsplash.com/photo-1677442136019-21780ecad995?w=900&auto=format&fit=crop&q=80",
+    cyber:"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=900&auto=format&fit=crop&q=80",
+    sql:"https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=900&auto=format&fit=crop&q=80",
+    network:"https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&auto=format&fit=crop&q=80",
+    entreprise:"https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=900&auto=format&fit=crop&q=80",
+    gestion:"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&auto=format&fit=crop&q=80",
+    finance:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&auto=format&fit=crop&q=80",
+    marketing:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&auto=format&fit=crop&q=80",
+    design:"https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=900&auto=format&fit=crop&q=80",
+    office:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=900&auto=format&fit=crop&q=80",
+    language:"https://images.unsplash.com/photo-1455390582262-044c292b937e?w=900&auto=format&fit=crop&q=80",
+    electronics:"https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&auto=format&fit=crop&q=80",
+    agri:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=900&auto=format&fit=crop&q=80"
+  };
+  const examples={
+    web:{lang:"html",code:'<!doctype html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8">\n  <title>Ma première page</title>\n  <style>body{font-family:Arial;padding:24px;background:#f0fdf4}h1{color:#047857}</style>\n</head>\n<body>\n  <h1>Bonjour Congo !</h1>\n  <p>Je construis ma première page web.</p>\n  <button onclick="this.textContent=\'Bravo !\'">Clique ici</button>\n</body>\n</html>'},
+    php:{lang:"php",code:'<?php\n$nom = "Apprenant";\necho "Bonjour " . $nom . " !";\n?>'},
+    flutter:{lang:"dart",code:"void main() {\n  final nom = 'Apprenant';\n  print('Bonjour $nom !');\n}"},
+    python:{lang:"python",code:'nom = "Apprenant"\nprint(f"Bonjour {nom} !")\n\nfor nombre in range(1, 4):\n    print("Étape", nombre)'},
+    sql:{lang:"sql",code:"SELECT nom, province\nFROM apprenants\nWHERE actif = TRUE\nORDER BY nom;"},
+  };
+  const lessonExtra=window.COURSE_LESSONS||{};
   function updateStats(){
     const done=Object.values(completed).filter(Boolean).length;
     $("#academyCourseCount").textContent=courses.length;
@@ -39,35 +67,53 @@
     grid.innerHTML=list.length?list.map(c=>{
       const done=c.lessons.filter((_,i)=>completed[c.id+"-"+i]).length;
       const pct=Math.round(done/c.lessons.length*100);
-      return '<article class="academy-card" data-course="'+c.id+'"><div class="academy-card-top"><span class="academy-course-icon '+c.tone+'">'+c.icon+'</span><span class="academy-level">'+c.level+'</span></div><span class="academy-card-tag">'+c.tag+'</span><h3>'+c.title+'</h3><p>'+c.desc+'</p><div class="academy-skills">'+c.skills.map(x=>'<span>'+safe(x)+'</span>').join("")+'</div><div class="academy-card-bottom"><span>'+c.duration+'</span><span>'+pct+'% terminé</span></div><div class="academy-progress"><i style="width:'+pct+'%"></i></div><button class="academy-open" data-open-course="'+c.id+'">Voir le parcours <span>↗</span></button></article>';
+      return '<article class="academy-card" data-course="'+c.id+'"><div class="academy-card-image"><img src="'+pictures[c.id]+'" alt="" loading="lazy" decoding="async"><span class="academy-level">'+c.level+'</span></div><div class="academy-card-body"><div class="academy-card-top"><span class="academy-course-icon '+c.tone+'">'+c.icon+'</span><span class="academy-card-tag">'+c.tag+'</span></div><h3>'+c.title+'</h3><p>'+c.desc+'</p><div class="academy-skills">'+c.skills.map(x=>'<span>'+safe(x)+'</span>').join("")+'</div><div class="academy-card-bottom"><span>'+c.duration+'</span><span>'+pct+'% terminé</span></div><div class="academy-progress"><i style="width:'+pct+'%"></i></div><button class="academy-open" data-open-course="'+c.id+'">Ouvrir le cours <span>↗</span></button></div></article>';
     }).join(""):'<div class="academy-no-results"><span>⌕</span><h3>Aucun parcours trouvé</h3><p>Essaie un autre mot-clé ou une autre catégorie.</p></div>';
     updateStats();
   }
-  function openCourse(id){
+  function lessonBody(c,i){
+    const extra=lessonExtra[c.id+"-"+i];
+    if(extra)return extra;
+    return {intro:c.lessons[i][1],points:["Lis attentivement cette notion et repère les mots-clés.","Essaie de reformuler l'idée avec tes propres mots.","Passe à l'exercice pratique avant de marquer la leçon comme terminée."],example:"Exemple : "+c.lessons[i][0]+".",exercise:"Explique cette notion dans un petit exemple concret lié à ton projet."};
+  }
+  function openCourse(id,lessonIndex=0){
     const c=courses.find(x=>x.id===id);if(!c)return;
     const done=c.lessons.filter((_,i)=>completed[c.id+"-"+i]).length;
     const pct=Math.round(done/c.lessons.length*100);
-    $("#academyDialogContent").innerHTML='<span class="academy-card-tag">'+c.tag+'</span><h2 id="academyDialogTitle">'+c.title+'</h2><p class="academy-dialog-desc">'+c.desc+'</p><div class="academy-dialog-meta"><span>'+c.level+'</span><span>'+c.duration+'</span><span>'+pct+'% terminé</span></div><div class="academy-progress"><i style="width:'+pct+'%"></i></div><h3 class="academy-module-heading">Programme du parcours</h3><div class="academy-lesson-list">'+c.lessons.map((lesson,i)=>'<article class="academy-lesson"><div class="academy-lesson-number">'+(completed[c.id+"-"+i]?'✓':String(i+1).padStart(2,"0"))+'</div><div><strong>'+safe(lesson[0])+'</strong><p>'+safe(lesson[1])+'</p></div><button data-complete="'+c.id+'-'+i+'" class="'+(completed[c.id+"-"+i]?'is-done':'')+'">'+(completed[c.id+"-"+i]?'Terminé':'Marquer fait')+'</button></article>').join("")+'</div><p class="academy-disclaimer">Parcours pédagogique introductif. Les leçons sont des fiches de cours à approfondir avec des exercices et des ressources complémentaires.</p>';
+    const lesson=c.lessons[lessonIndex]||c.lessons[0], body=lessonBody(c,lessonIndex), ex=examples[c.id];
+    const editor=ex?'<section class="academy-playground"><div class="academy-playground-head"><div><span class="academy-card-tag">ATELIER DE PRATIQUE</span><h3>Essaie le code maintenant</h3></div><span class="academy-language">'+ex.lang.toUpperCase()+'</span></div><p>Modifie le code, puis lance-le dans cet espace sécurisé.</p><textarea id="academyCode" spellcheck="false" autocapitalize="off" autocomplete="off">'+safe(ex.code)+'</textarea><div class="academy-play-actions"><button class="academy-run" id="academyRun">▶ Exécuter</button><button class="academy-copy" id="academyCopy">Copier le code</button><button class="academy-reset" id="academyReset">Réinitialiser</button></div><div id="academyRunInfo" class="academy-run-info" role="status">HTML, CSS et JavaScript peuvent être exécutés dans l’aperçu local. Pour PHP, Dart, Python et SQL, l’éditeur sert à écrire et copier le code : leur moteur d’exécution dédié sera ajouté séparément.</div><iframe id="academyPreview" title="Aperçu du code exécuté" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe></section>':'<section class="academy-playground"><div class="academy-playground-head"><div><span class="academy-card-tag">ESPACE DE CODE</span><h3>Écris et copie ton exemple</h3></div><span class="academy-language">'+(c.skills[0]||"CODE")+'</span></div><textarea id="academyCode" spellcheck="false" autocapitalize="off" autocomplete="off">'+safe((ex||{code:"// Écris ton exemple ici"}).code)+'</textarea><div class="academy-play-actions"><button class="academy-copy" id="academyCopy">Copier le code</button><button class="academy-reset" id="academyReset">Réinitialiser</button></div><div class="academy-run-info" id="academyRunInfo">Cet éditeur te permet de préparer et copier le code. L’exécution de '+safe(c.skills.join(", "))+' nécessite un moteur adapté, qui n’est pas encore intégré dans cette version.</div></section>';
+    $("#academyDialogContent").innerHTML='<div class="academy-reader"><div class="academy-reader-head"><div><span class="academy-card-tag">'+c.tag+'</span><h2 id="academyDialogTitle">'+c.title+'</h2><p>'+c.desc+'</p></div><span class="academy-reader-progress">'+pct+'% terminé</span></div><div class="academy-progress"><i style="width:'+pct+'%"></i></div><div class="academy-reader-layout"><nav class="academy-lesson-nav"><strong>CONTENU DU COURS</strong>'+c.lessons.map((l,i)=>'<button class="'+(i===lessonIndex?'active':'')+'" data-read-lesson="'+i+'"><span>'+(completed[c.id+"-"+i]?'✓':String(i+1).padStart(2,"0"))+'</span>'+safe(l[0])+'</button>').join("")+'</nav><article class="academy-lesson-reader"><span class="academy-card-tag">LEÇON '+(lessonIndex+1)+' / '+c.lessons.length+'</span><h3>'+safe(lesson[0])+'</h3><p class="academy-lesson-intro">'+safe(body.intro||lesson[1])+'</p><h4>À retenir</h4><ul>'+(body.points||[]).map(x=>'<li>'+safe(x)+'</li>').join("")+'</ul><div class="academy-example"><strong>EXEMPLE</strong><p>'+safe(body.example||"Observe cet exemple et identifie les notions importantes.")+'</p></div><div class="academy-exercise"><strong>À TOI DE JOUER</strong><p>'+safe(body.exercise||"Réalise un petit exercice avec cette notion.")+'</p></div>'+editor+'<button class="academy-mark-done" id="academyMarkDone">'+(completed[c.id+"-"+lessonIndex]?'✓ Leçon terminée — cliquer pour annuler':'Marquer cette leçon comme terminée')+'</button><div class="academy-reader-next"><button id="academyPrevious" '+(lessonIndex===0?'disabled':'')+'>← Précédente</button><button id="academyNext" '+(lessonIndex===c.lessons.length-1?'disabled':'')+'>Leçon suivante →</button></div></article></div></div>';
     const d=$("#academyDialog");if(!d.open)d.showModal();
+    $("#academyDialogContent").dataset.course=id;$("#academyDialogContent").dataset.lesson=lessonIndex;
+    bindReader(c,lessonIndex,ex);
+  }
+  function bindReader(c,index,ex){
+    const root=$("#academyDialogContent");
+    root.querySelectorAll("[data-read-lesson]").forEach(b=>b.addEventListener("click",()=>openCourse(c.id,Number(b.dataset.readLesson))));
+    $("#academyMarkDone").addEventListener("click",()=>{completed[c.id+"-"+index]=!completed[c.id+"-"+index];localStorage.setItem("co-academy-progress",JSON.stringify(completed));openCourse(c.id,index);render();});
+    $("#academyPrevious").addEventListener("click",()=>openCourse(c.id,index-1));
+    $("#academyNext").addEventListener("click",()=>openCourse(c.id,index+1));
+    const editor=$("#academyCode");
+    $("#academyCopy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(editor.value);$("#academyRunInfo").textContent="Code copié dans le presse-papiers."; }catch(e){editor.select();document.execCommand("copy");$("#academyRunInfo").textContent="Code sélectionné/copier selon les options de ton navigateur.";}});
+    $("#academyReset").addEventListener("click",()=>{editor.value=(ex||{code:"// Écris ton exemple ici"}).code;$("#academyRunInfo").textContent="Exemple initial restauré.";});
+    if($("#academyRun"))$("#academyRun").addEventListener("click",()=>{
+      if(ex.lang!=="html"){ $("#academyRunInfo").textContent="Ce langage ne s’exécute pas directement dans un navigateur. Utilise l’éditeur pour préparer le code ; un moteur adapté sera intégré dans une prochaine étape.";return;}
+      const frame=$("#academyPreview"),doc=frame.contentDocument;doc.open();doc.write(editor.value);doc.close();$("#academyRunInfo").textContent="Exécution terminée dans l’aperçu isolé ci-dessous.";
+    });
   }
   grid.addEventListener("click",e=>{const b=e.target.closest("[data-open-course]");if(b)openCourse(b.dataset.openCourse);});
-  $("#academyDialogContent").addEventListener("click",e=>{
-    const b=e.target.closest("[data-complete]");if(!b)return;
-    completed[b.dataset.complete]=!completed[b.dataset.complete];
-    localStorage.setItem("co-academy-progress",JSON.stringify(completed));
-    const id=$("#academyDialogContent").querySelector("#academyDialogTitle").textContent;
-    const course=courses.find(c=>c.title===id);if(course)openCourse(course.id);
-    render();
-  });
   $("#academyDialogClose").addEventListener("click",()=>$("#academyDialog").close());
   $("#academyDialog").addEventListener("click",e=>{if(e.target===$("#academyDialog"))$("#academyDialog").close();});
   $("#academySearch").addEventListener("input",render);
   $("#academyLevel").addEventListener("change",render);
-  $("#academyCategories").addEventListener("click",e=>{
-    const b=e.target.closest("[data-acategory]");if(!b)return;
-    activeCategory=b.dataset.acategory;
-    $("#academyCategories").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));
-    render();
+  $("#academyCategories").addEventListener("click",e=>{const b=e.target.closest("[data-acategory]");if(!b)return;activeCategory=b.dataset.acategory;$("#academyCategories").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));render();});
+  const installButton=$("#installPwaButton");let installPrompt=null;
+  window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installPrompt=e;if(installButton)installButton.hidden=false;});
+  if(installButton)installButton.addEventListener("click",async()=>{
+    if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;installButton.hidden=true;return;}
+    const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    $("#academyInstallInfo").hidden=false;
+    $("#academyInstallInfo").textContent=ios?"Sur iPhone/iPad : ouvre ce site dans Safari, touche Partager (□↑), puis « Sur l’écran d’accueil » et confirme.":"Pour installer : ouvre le menu de ton navigateur puis choisis « Installer l’application » ou « Ajouter à l’écran d’accueil ». Sur Android, Chrome propose aussi cette option dans le menu ⋮.";
   });
   render();
 })();

@@ -7,7 +7,8 @@
 
   function showView(name) {
     if (!views.includes(name)) return;
-    $$(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + name));
+    if (dialog.open) dialog.close();
+    $(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + name));
     $$(".nav-link[data-view]").forEach(b => { const active=b.dataset.view===name; b.classList.toggle("active",active); if(active)b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
     $("#pageHeading").textContent = titles[name];
     sidebar.classList.remove("open");

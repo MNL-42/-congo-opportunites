@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1724">
+  <meta name="description" content="Congo Opportunités connecte les jeunes de RDC aux formations, bourses, stages, concours et projets technologiques.">
+  <title>Congo Opportunités — Ton talent mérite une opportunité</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./assets/icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/responsive.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#accueil" aria-label="Congo Opportunités, accueil">
+        <span class="brand-mark">C<span>+</span></span>
+        <span class="brand-copy"><strong>CONGO</strong><small>OPPORTUNITÉS</small></span>
+      </a>
+
+      <div class="sidebar-label">ESPACE PERSONNEL</div>
+      <nav class="side-nav" aria-label="Navigation principale">
+        <button class="nav-link active" data-view="accueil"><span class="nav-icon">⌂</span>Accueil</button>
+        <button class="nav-link" data-view="decouvrir"><span class="nav-icon">⌕</span>Découvrir</button>
+        <button class="nav-link" data-view="academie"><span class="nav-icon">▤</span>Académie</button>
+        <button class="nav-link" data-view="projets"><span class="nav-icon">◇</span>Projets & défis</button>
+        <button class="nav-link" data-view="favoris"><span class="nav-icon">♡</span>Mes favoris</button>
+      </nav>
+
+      <div class="sidebar-label profile-label">MON ESPACE</div>
+      <button class="nav-link" data-view="profil"><span class="nav-icon">◉</span>Mon profil</button>
+
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <span class="help-icon">✦</span>
+          <strong>Un talent. Une opportunité.</strong>
+          <p>Prépare ton avenir, une étape à la fois.</p>
+        </div>
+        <div class="sidebar-footer">Une initiative pour la jeunesse congolaise.</div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="icon-button menu-toggle" id="menuToggle" aria-label="Ouvrir le menu">☰</button>
+        <div class="topbar-title">
+          <span class="eyebrow">PLATEFORME NATIONALE</span>
+          <strong id="pageHeading">Tableau de bord</strong>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-button" id="themeToggle" aria-label="Changer de thème" title="Changer de thème">◐</button>
+          <button class="user-chip" id="accountButton" aria-label="Ouvrir le compte">
+            <span class="avatar" id="avatarInitials">?</span>
+            <span class="user-chip-copy"><strong id="headerUserName">Visiteur</strong><small id="headerUserStatus">Non connecté</small></span>
+            <span class="chevron">⌄</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="content-wrap">
+        <section class="view active" id="view-accueil">
+          <div class="welcome-row">
+            <div>
+              <div class="eyebrow green">BIENVENUE SUR CONGO OPPORTUNITÉS</div>
+              <h1>Ton prochain pas<br><span>commence ici.</span></h1>
+              <p class="lead">Découvre des opportunités, développe tes compétences et donne de la visibilité à ton talent.</p>
+              <button class="primary-button" data-go="decouvrir">Explorer les opportunités <span>↗</span></button>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+              <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+              <div class="hero-glow"></div>
+              <div class="hero-symbol">C<span>+</span></div>
+              <div class="floating-tag tag-top">TALENT <b>↗</b></div>
+              <div class="floating-tag tag-bottom"><i></i> CAP SUR L'AVENIR</div>
+            </div>
+          </div>
+
+          <div class="section-heading">
+            <div><span class="eyebrow">TON ESPACE</span><h2>Commence ton parcours</h2></div>
+          </div>
+          <div class="quick-grid">
+            <button class="quick-card" data-go="decouvrir"><span class="quick-icon mint">⌕</span><strong>Explorer</strong><small>Rechercher des opportunités</small><span class="card-arrow">↗</span></button>
+            <button class="quick-card" data-go="academie"><span class="quick-icon blue">▤</span><strong>Apprendre</strong><small>Développer tes compétences</small><span class="card-arrow">↗</span></button>
+            <button class="quick-card" data-go="projets"><span class="quick-icon violet">◇</span><strong>Créer</strong><small>Découvrir des défis numériques</small><span class="card-arrow">↗</span></button>
+            <button class="quick-card" data-go="profil"><span class="quick-icon gold">◉</span><strong>Valoriser</strong><small>Présenter ton talent</small><span class="card-arrow">↗</span></button>
+          </div>
+
+          <div class="section-heading opportunity-heading">
+            <div><span class="eyebrow">À DÉCOUVRIR</span><h2>Opportunités récentes</h2></div>
+            <button class="text-button" data-go="decouvrir">Tout voir ↗</button>
+          </div>
+          <div class="empty-state compact-empty">
+            <div class="empty-icon">⌕</div>
+            <h3>Les opportunités arrivent bientôt</h3>
+            <p>Les annonces apparaîtront ici après connexion à la base de données et validation par notre équipe.</p>
+            <button class="secondary-button" data-go="decouvrir">Voir le catalogue</button>
+          </div>
+          <div class="notice-line"><span>✦</span> Les annonces publiées devront toujours afficher leur source et leur date de vérification.</div>
+        </section>
+
+        <section class="view" id="view-decouvrir">
+          <div class="page-intro">
+            <span class="eyebrow green">TROUVE TA PROCHAINE ÉTAPE</span>
+            <h1>Découvrir les opportunités</h1>
+            <p>Des possibilités pour apprendre, entreprendre et faire évoluer ton parcours.</p>
+          </div>
+          <div class="filter-panel">
+            <label class="search-field"><span>⌕</span><input id="searchInput" type="search" placeholder="Rechercher une opportunité..." autocomplete="off"></label>
+            <select id="categoryFilter" aria-label="Filtrer par catégorie">
+              <option value="">Toutes les catégories</option>
+              <option value="Bourse">Bourses</option><option value="Formation">Formations</option>
+              <option value="Stage">Stages</option><option value="Emploi">Emplois</option>
+              <option value="Concours">Concours</option>
+            </select>
+            <select id="provinceFilter" aria-label="Filtrer par province">
+              <option value="">Toutes les provinces</option>
+              <option>Kinshasa</option><option>Kongo Central</option><option>Haut-Katanga</option>
+              <option>Lualaba</option><option>Nord-Kivu</option><option>Sud-Kivu</option>
+              <option>Ituri</option><option>Kwilu</option><option>Kwango</option><option>Tshopo</option>
+            </select>
+          </div>
+          <div class="results-meta"><span id="resultsCount">Aucune annonce chargée</span><span class="status-key"><i></i> Source à vérifier avant candidature</span></div>
+          <div class="empty-state">
+            <div class="empty-icon">⌕</div>
+            <h3>Aucune opportunité disponible pour le moment</h3>
+            <p>Le catalogue sera alimenté avec des annonces réelles, leurs conditions, leurs dates limites et leurs sources officielles.</p>
+          </div>
+        </section>
+
+        <section class="view" id="view-academie">
+          <div class="page-intro"><span class="eyebrow green">APPRENDS À TON RYTHME</span><h1>Académie numérique</h1><p>Des ressources pour construire des compétences utiles dans le monde numérique.</p></div>
+          <div class="feature-banner"><div><span class="eyebrow">TON APPRENTISSAGE</span><h2>Chaque compétence<br>ouvre une porte.</h2><p>Les premiers parcours pédagogiques seront publiés progressivement.</p></div><div class="feature-symbol">✳</div></div>
+          <div class="section-heading"><div><span class="eyebrow">PARCOURS PRÉVUS</span><h2>Explore les domaines</h2></div></div>
+          <div class="course-grid">
+            <article class="course-card"><span class="course-icon mint">⌘</span><span class="course-tag">DÉVELOPPEMENT</span><h3>Développement web</h3><p>HTML, CSS et JavaScript.</p></article>
+            <article class="course-card"><span class="course-icon blue">Py</span><span class="course-tag">PROGRAMMATION</span><h3>Python</h3><p>Découvrir la logique et le code.</p></article>
+            <article class="course-card"><span class="course-icon violet">✧</span><span class="course-tag">INNOVATION</span><h3>Intelligence artificielle</h3><p>Comprendre les outils et leurs usages.</p></article>
+            <article class="course-card"><span class="course-icon gold">⌑</span><span class="course-tag">SÉCURITÉ</span><h3>Cybersécurité</h3><p>Protéger ses comptes et ses appareils.</p></article>
+          </div>
+        </section>
+
+        <section class="view" id="view-projets">
+          <div class="page-intro"><span class="eyebrow green">PASSE DE L'IDÉE À L'ACTION</span><h1>Projets & défis</h1><p>Découvre des initiatives pour expérimenter, apprendre et collaborer.</p></div>
+          <div class="empty-state"><div class="empty-icon">◇</div><h3>Le prochain défi se prépare</h3><p>Les défis seront publiés par l'équipe avec leurs objectifs, conditions de participation et dates limites.</p></div>
+        </section>
+
+        <section class="view" id="view-favoris">
+          <div class="page-intro"><span class="eyebrow green">À GARDER SOUS LA MAIN</span><h1>Mes favoris</h1><p>Retrouve ici les opportunités que tu souhaites consulter plus tard.</p></div>
+          <div class="empty-state"><div class="empty-icon">♡</div><h3>Ton espace favoris est vide</h3><p>Connecte-toi et enregistre les annonces qui t'intéressent pour les retrouver facilement.</p><button class="secondary-button" data-go="decouvrir">Découvrir les annonces</button></div>
+        </section>
+
+        <section class="view" id="view-profil">
+          <div class="page-intro"><span class="eyebrow green">TON IDENTITÉ NUMÉRIQUE</span><h1>Mon profil</h1><p>Présente tes compétences et les domaines qui t'intéressent.</p></div>
+          <div class="profile-panel">
+            <div class="profile-avatar" id="profileAvatar">?</div>
+            <div><h2 id="profileName">Profil non connecté</h2><p id="profileEmail">Connecte-toi pour commencer ton profil.</p><span class="profile-badge">MEMBRE CONGO OPPORTUNITÉS</span></div>
+          </div>
+          <div class="empty-state compact-empty"><h3>Ton profil sera bientôt personnalisable</h3><p>La modification du profil sera activée après la connexion sécurisée à Supabase.</p><button class="primary-button" id="profileSignIn">Se connecter avec Google</button></div>
+        </section>
+
+        <footer class="main-footer"><span>© <span id="year"></span> Congo Opportunités</span><span>Ton talent mérite une opportunité.</span><a href="mailto:contact@example.com">Contacter l'équipe</a></footer>
+      </div>
+    </main>
+  </div>
+
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <dialog class="auth-dialog" id="authDialog">
+    <button class="dialog-close" id="closeAuth" aria-label="Fermer">×</button>
+    <div class="dialog-brand">C<span>+</span></div>
+    <span class="eyebrow green">BIENVENUE DANS LA COMMUNAUTÉ</span>
+    <h2>Ton avenir commence ici.</h2>
+    <p>Connecte-toi avec Google pour accéder à ton espace personnel.</p>
+    <button class="google-button" id="googleSignIn"><span class="google-g">G</span> Continuer avec Google</button>
+    <p class="auth-note">En continuant, tu acceptes les conditions d'utilisation et la politique de confidentialité de la plateforme.</p>
+    <div class="auth-message" id="authMessage" role="status"></div>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./js/config.js"></script>
+  <script src="./js/auth.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>

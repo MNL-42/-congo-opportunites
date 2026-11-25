@@ -1,119 +1,64 @@
 (() => {
-  const $ = (s, root=document) => root.querySelector(s);
-  const grid = $("#academyGrid");
-  if (!grid) return;
-  const courses = [
-    {id:"web",icon:"⌘",tone:"mint",category:"Technologie",tag:"DÉVELOPPEMENT",title:"Développement web",desc:"Crée des sites modernes et accessibles, de la première page à une application complète.",level:"Débutant",duration:"8 modules",skills:["HTML","CSS","JavaScript"],lessons:[["Découvrir le web","Comprendre navigateur, serveur, URL et fonctionnement d'un site."],["HTML : structurer une page","Titres, paragraphes, liens, images, formulaires et structure sémantique."],["CSS : donner du style","Couleurs, typographie, espacements, Flexbox, Grid et responsive design."],["JavaScript : rendre le site interactif","Variables, conditions, fonctions, événements et manipulation du DOM."],["Construire une interface responsive","Concevoir une expérience mobile et ordinateur."],["Données et API","Comprendre JSON, requêtes HTTP et API publiques."],["Publier son site","Git, GitHub et déploiement d'un site statique."],["Projet pratique","Créer un mini portfolio personnel et le publier."]]},
-    {id:"php",icon:"PHP",tone:"blue",category:"Technologie",tag:"BACK-END",title:"PHP & développement serveur",desc:"Apprends la logique serveur, les formulaires, les sessions et les bases de données.",level:"Débutant",duration:"6 modules",skills:["PHP","MySQL","Backend"],lessons:[["Découvrir PHP","Rôle du serveur et fonctionnement d'un script PHP."],["Variables et conditions","Types, opérateurs, conditions et boucles."],["Fonctions et formulaires","Traiter et valider les données envoyées par un formulaire."],["Sessions et sécurité","Sessions, mots de passe hachés et validation des entrées."],["MySQL et PHP","Lire et enregistrer des données avec des requêtes préparées."],["Mini-projet","Concevoir une petite application de gestion."]]},
-    {id:"flutter",icon:"✦",tone:"violet",category:"Technologie",tag:"MOBILE",title:"Flutter & Dart",desc:"Découvre la création d'applications mobiles multiplateformes avec une interface soignée.",level:"Débutant",duration:"7 modules",skills:["Dart","Flutter","Android"],lessons:[["Découvrir Flutter","Widgets, moteur de rendu et structure d'une application."],["Les bases de Dart","Variables, types, fonctions, classes et collections."],["Construire une interface","Scaffold, Text, Container, Row, Column et thèmes."],["Navigation et formulaires","Passer d'un écran à l'autre et recueillir des informations."],["État et interactions","Gérer les états et les actions utilisateur."],["Données et API","Lire des données JSON et communiquer avec un service."],["Projet mobile","Réaliser une application de tâches simple."]]},
-    {id:"python",icon:"Py",tone:"gold",category:"Technologie",tag:"PROGRAMMATION",title:"Python",desc:"Maîtrise les bases de la programmation et automatise des tâches utiles.",level:"Débutant",duration:"7 modules",skills:["Python","Logique","Automatisation"],lessons:[["Premiers pas","Installer Python et exécuter un programme."],["Variables et types","Nombres, chaînes, booléens et conversions."],["Conditions et boucles","Construire une logique de décision."],["Fonctions et modules","Organiser un programme réutilisable."],["Listes et dictionnaires","Manipuler des collections de données."],["Fichiers et erreurs","Lire, écrire et gérer les erreurs."],["Projet pratique","Créer un gestionnaire de dépenses en local."]]},
-    {id:"ai",icon:"✧",tone:"violet",category:"Technologie",tag:"INNOVATION",title:"Intelligence artificielle",desc:"Comprends l'IA, les modèles, les prompts et les usages responsables.",level:"Débutant",duration:"5 modules",skills:["IA","Prompting","Éthique"],lessons:[["Comprendre l'IA","Différences entre automatisation, IA et apprentissage automatique."],["Bien formuler une demande","Objectif, contexte, contraintes et vérification."],["Données et modèles","Notions de données, entraînement et limites."],["Créer un petit projet IA","Imaginer un cas d'usage utile et mesurable."],["Utiliser l'IA avec responsabilité","Vie privée, biais, droits et vérification des résultats."]]},
-    {id:"cyber",icon:"⌑",tone:"mint",category:"Technologie",tag:"SÉCURITÉ",title:"Cybersécurité essentielle",desc:"Protège tes comptes, tes appareils et tes projets numériques.",level:"Débutant",duration:"5 modules",skills:["Sécurité","Réseaux","Confidentialité"],lessons:[["Les bases de la sécurité","Menaces courantes et principes de protection."],["Protéger ses comptes","Mots de passe uniques, gestionnaire et authentification multifacteur."],["Naviguer prudemment","Reconnaître les liens suspects et les tentatives d'arnaque."],["Sécuriser un site","HTTPS, mises à jour, sauvegardes et contrôle d'accès."],["Réagir à un incident","Signaler, changer les accès et restaurer une sauvegarde."]]},
-    {id:"sql",icon:"▤",tone:"blue",category:"Technologie",tag:"DONNÉES",title:"Bases de données & SQL",desc:"Organise, interroge et protège les informations d'une application.",level:"Intermédiaire",duration:"5 modules",skills:["SQL","PostgreSQL","Données"],lessons:[["Modéliser les données","Tables, colonnes, lignes et relations."],["Requêtes SQL","SELECT, WHERE, ORDER BY et LIMIT."],["Modifier les données","INSERT, UPDATE et DELETE avec prudence."],["Relations et jointures","Clés primaires, étrangères et JOIN."],["Projet de base de données","Concevoir le schéma d'une petite bibliothèque."]]},
-    {id:"network",icon:"◎",tone:"blue",category:"Technologie",tag:"INFRASTRUCTURE",title:"Réseaux & cloud",desc:"Comprends Internet, les réseaux locaux, les serveurs et le cloud.",level:"Intermédiaire",duration:"5 modules",skills:["TCP/IP","DNS","Cloud"],lessons:[["Comprendre un réseau","LAN, WAN, routeur, switch et points d'accès."],["Adresses et protocoles","IP, ports, TCP, UDP et HTTP."],["DNS et hébergement","Résolution de noms et hébergement web."],["Découvrir le cloud","Stockage, calcul et services managés."],["Projet pratique","Dessiner l'architecture d'un petit service web."]]},
-    {id:"entreprise",icon:"↗",tone:"gold",category:"Business",tag:"ENTREPRENEURIAT",title:"Créer son entreprise",desc:"Passe d'une idée à une activité structurée qui répond à un besoin réel.",level:"Débutant",duration:"7 modules",skills:["Idée","Business model","Lancement"],lessons:[["Trouver un problème utile","Observer les besoins et écouter les futurs clients."],["Valider son idée","Entretiens, hypothèses et test à petite échelle."],["Définir son offre","Client cible, proposition de valeur et prix."],["Construire un modèle économique","Revenus, coûts et partenaires."],["Préparer son lancement","Plan d'action, communication et premiers clients."],["Suivre son activité","Indicateurs simples et retours clients."],["Projet final","Rédiger une fiche de projet entrepreneurial."]]},
-    {id:"gestion",icon:"▦",tone:"gold",category:"Business",tag:"MANAGEMENT",title:"Gestion d'entreprise",desc:"Apprends à organiser les opérations, les équipes et les objectifs d'une activité.",level:"Débutant",duration:"6 modules",skills:["Gestion","Organisation","Management"],lessons:[["Rôles et organisation","Fonctions d'une entreprise et répartition des responsabilités."],["Planifier le travail","Objectifs, priorités et calendrier."],["Gérer une équipe","Communication, collaboration et leadership."],["Suivre les opérations","Qualité, stocks, fournisseurs et service client."],["Prendre des décisions","Indicateurs, risques et amélioration continue."],["Cas pratique","Organiser le fonctionnement d'une petite entreprise."]]},
-    {id:"finance",icon:"$",tone:"mint",category:"Business",tag:"FINANCE",title:"Comptabilité & finances",desc:"Comprends les recettes, dépenses, budgets, bénéfices et trésorerie.",level:"Débutant",duration:"5 modules",skills:["Budget","Comptabilité","Trésorerie"],lessons:[["Vocabulaire financier","Actifs, passifs, revenus, charges et résultat."],["Tenir un budget","Prévoir et classer les entrées et sorties."],["Comprendre la trésorerie","Suivre l'argent disponible et les échéances."],["Calculer ses coûts et prix","Coût de revient, marge et seuil de rentabilité."],["Tableau de bord","Construire un suivi financier simple."]]},
-    {id:"marketing",icon:"◉",tone:"violet",category:"Business",tag:"COMMERCIAL",title:"Marketing & vente",desc:"Comprends ton marché, communique clairement et développe ta clientèle.",level:"Débutant",duration:"5 modules",skills:["Marketing","Communication","Vente"],lessons:[["Comprendre son marché","Clients, besoins, concurrence et positionnement."],["Construire une marque","Promesse, identité et cohérence."],["Marketing numérique","Contenu, réseaux sociaux et visibilité."],["Vendre avec méthode","Écoute, proposition, objections et suivi."],["Mesurer les résultats","Objectifs, conversion et fidélisation."]]},
-    {id:"design",icon:"✎",tone:"violet",category:"Création",tag:"CRÉATION",title:"UI/UX & design graphique",desc:"Conçois des interfaces lisibles, utiles et agréables à utiliser.",level:"Débutant",duration:"5 modules",skills:["UI","UX","Figma"],lessons:[["Comprendre l'UX","Besoins, parcours et problèmes des utilisateurs."],["Construire une interface","Hiérarchie, grille, couleurs et typographie."],["Prototyper","Wireframes, composants et prototypes."],["Accessibilité","Contraste, lisibilité et navigation."],["Projet pratique","Prototyper l'écran d'une application mobile."]]},
-    {id:"office",icon:"▧",tone:"blue",category:"Carrière",tag:"COMPÉTENCES",title:"Bureautique & productivité",desc:"Utilise efficacement les documents, tableurs, présentations et outils collaboratifs.",level:"Débutant",duration:"4 modules",skills:["Documents","Tableurs","Présentation"],lessons:[["Documents professionnels","Rédiger et mettre en forme un document."],["Tableurs","Cellules, formules, tris et graphiques."],["Présentations","Structurer des diapositives claires."],["Organisation numérique","Fichiers, sauvegardes et collaboration."]]},
-    {id:"language",icon:"文",tone:"gold",category:"Carrière",tag:"LANGUES",title:"Anglais professionnel",desc:"Développe le vocabulaire utile pour les études, le travail et la technologie.",level:"Débutant",duration:"4 modules",skills:["Anglais","Communication","Vocabulaire"],lessons:[["Se présenter","Présenter son parcours et ses objectifs."],["Vocabulaire du travail","Métiers, tâches et outils."],["Écrire un message professionnel","Salutations, demandes et réponses."],["Entretien et présentation","Expliquer une idée et répondre clairement."]]},
-    {id:"electronics",icon:"⌁",tone:"mint",category:"Sciences",tag:"INDUSTRIE",title:"Électronique & objets connectés",desc:"Découvre les composants, circuits, capteurs et principes de l'IoT.",level:"Débutant",duration:"5 modules",skills:["Électronique","Capteurs","IoT"],lessons:[["Électricité et sécurité","Tension, courant, résistance et précautions."],["Composants essentiels","Résistances, LED, boutons et condensateurs."],["Lire un schéma","Symboles et connexions de base."],["Microcontrôleurs et capteurs","Découvrir les usages d'une carte programmable."],["Projet pratique","Imaginer un système de mesure simple."]]},
-    {id:"agri",icon:"♧",tone:"mint",category:"Sciences",tag:"AGRO-INNOVATION",title:"Agriculture & innovation",desc:"Explore les bases de l'agriculture durable, de la gestion et des outils numériques.",level:"Débutant",duration:"4 modules",skills:["Agriculture","Durabilité","Innovation"],lessons:[["Comprendre les sols et cultures","Notions de sol, eau et choix des cultures."],["Organiser une production","Calendrier, ressources et suivi."],["Agriculture durable","Préserver les ressources et réduire les pertes."],["Numérique agricole","Données météo, suivi et commercialisation."]]}
-  ];
-
-  let activeCategory="Tous";
-  const completed=JSON.parse(localStorage.getItem("co-academy-progress")||"{}");
-  const totalLessons=courses.reduce((n,c)=>n+c.lessons.length,0);
-  const safe=s=>String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
-  const pictures={
-    web:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=900&auto=format&fit=crop&q=80",
-    php:"https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=900&auto=format&fit=crop&q=80",
-    flutter:"https://images.unsplash.com/photo-1551650975-87deedd944c3?w=900&auto=format&fit=crop&q=80",
-    python:"https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=900&auto=format&fit=crop&q=80",
-    ai:"https://images.unsplash.com/photo-1677442136019-21780ecad995?w=900&auto=format&fit=crop&q=80",
-    cyber:"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=900&auto=format&fit=crop&q=80",
-    sql:"https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=900&auto=format&fit=crop&q=80",
-    network:"https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&auto=format&fit=crop&q=80",
-    entreprise:"https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=900&auto=format&fit=crop&q=80",
-    gestion:"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&auto=format&fit=crop&q=80",
-    finance:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&auto=format&fit=crop&q=80",
-    marketing:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&auto=format&fit=crop&q=80",
-    design:"https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=900&auto=format&fit=crop&q=80",
-    office:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=900&auto=format&fit=crop&q=80",
-    language:"https://images.unsplash.com/photo-1455390582262-044c292b937e?w=900&auto=format&fit=crop&q=80",
-    electronics:"https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&auto=format&fit=crop&q=80",
-    agri:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=900&auto=format&fit=crop&q=80"
-  };
-  const examples={
-    web:{lang:"html",code:'<!doctype html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8">\n  <title>Ma première page</title>\n  <style>body{font-family:Arial;padding:24px;background:#f0fdf4}h1{color:#047857}</style>\n</head>\n<body>\n  <h1>Bonjour Congo !</h1>\n  <p>Je construis ma première page web.</p>\n  <button onclick="this.textContent=\'Bravo !\'">Clique ici</button>\n</body>\n</html>'},
-    php:{lang:"php",code:'<?php\n$nom = "Apprenant";\necho "Bonjour " . $nom . " !";\n?>'},
-    flutter:{lang:"dart",code:"void main() {\n  final nom = 'Apprenant';\n  print('Bonjour $nom !');\n}"},
-    python:{lang:"python",code:'nom = "Apprenant"\nprint(f"Bonjour {nom} !")\n\nfor nombre in range(1, 4):\n    print("Étape", nombre)'},
-    sql:{lang:"sql",code:"SELECT nom, province\nFROM apprenants\nWHERE actif = TRUE\nORDER BY nom;"},
-  };
-  const lessonExtra=window.COURSE_LESSONS||{};
-  function updateStats(){
-    const done=Object.values(completed).filter(Boolean).length;
-    $("#academyCourseCount").textContent=courses.length;
-    $("#academyLessonCount").textContent=totalLessons;
-    $("#academyProgressCount").textContent=done;
-  }
-  function render(){
-    const query=$("#academySearch").value.trim().toLocaleLowerCase("fr");
-    const level=$("#academyLevel").value;
-    const list=courses.filter(c=>(activeCategory==="Tous"||c.category===activeCategory)&&(!level||c.level===level)&&(!query||[c.title,c.desc,c.tag,c.skills.join(" ")].join(" ").toLocaleLowerCase("fr").includes(query)));
-    $("#academyResultsCount").textContent=list.length+" parcours";
-    grid.innerHTML=list.length?list.map(c=>{
-      const done=c.lessons.filter((_,i)=>completed[c.id+"-"+i]).length;
-      const pct=Math.round(done/c.lessons.length*100);
-      return '<article class="academy-card" data-course="'+c.id+'"><div class="academy-card-image"><img src="'+pictures[c.id]+'" alt="" loading="lazy" decoding="async"><span class="academy-level">'+c.level+'</span></div><div class="academy-card-body"><div class="academy-card-top"><span class="academy-course-icon '+c.tone+'">'+c.icon+'</span><span class="academy-card-tag">'+c.tag+'</span></div><h3>'+c.title+'</h3><p>'+c.desc+'</p><div class="academy-skills">'+c.skills.map(x=>'<span>'+safe(x)+'</span>').join("")+'</div><div class="academy-card-bottom"><span>'+c.duration+'</span><span>'+pct+'% terminé</span></div><div class="academy-progress"><i style="width:'+pct+'%"></i></div><button class="academy-open" data-open-course="'+c.id+'">Ouvrir le cours <span>↗</span></button></div></article>';
-    }).join(""):'<div class="academy-no-results"><span>⌕</span><h3>Aucun parcours trouvé</h3><p>Essaie un autre mot-clé ou une autre catégorie.</p></div>';
-    updateStats();
-  }
-  function lessonBody(c,i){
-    const extra=lessonExtra[c.id+"-"+i];
-    if(extra)return extra;
-    return {intro:c.lessons[i][1],points:["Lis attentivement cette notion et repère les mots-clés.","Essaie de reformuler l'idée avec tes propres mots.","Passe à l'exercice pratique avant de marquer la leçon comme terminée."],example:"Exemple : "+c.lessons[i][0]+".",exercise:"Explique cette notion dans un petit exemple concret lié à ton projet."};
-  }
-  function openCourse(id,lessonIndex=0){
-    const c=courses.find(x=>x.id===id);if(!c)return;
-    const done=c.lessons.filter((_,i)=>completed[c.id+"-"+i]).length;
-    const pct=Math.round(done/c.lessons.length*100);
-    const lesson=c.lessons[lessonIndex]||c.lessons[0], body=lessonBody(c,lessonIndex), ex=examples[c.id];
-    const editor=ex?'<section class="academy-playground"><div class="academy-playground-head"><div><span class="academy-card-tag">ATELIER DE PRATIQUE</span><h3>Essaie le code maintenant</h3></div><span class="academy-language">'+ex.lang.toUpperCase()+'</span></div><p>Modifie le code, puis lance-le dans cet espace sécurisé.</p><textarea id="academyCode" spellcheck="false" autocapitalize="off" autocomplete="off">'+safe(ex.code)+'</textarea><div class="academy-play-actions"><button class="academy-run" id="academyRun">▶ Exécuter</button><button class="academy-copy" id="academyCopy">Copier le code</button><button class="academy-reset" id="academyReset">Réinitialiser</button></div><div id="academyRunInfo" class="academy-run-info" role="status">HTML, CSS et JavaScript peuvent être exécutés dans l’aperçu local. Pour PHP, Dart, Python et SQL, l’éditeur sert à écrire et copier le code : leur moteur d’exécution dédié sera ajouté séparément.</div><iframe id="academyPreview" title="Aperçu du code exécuté" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe></section>':'<section class="academy-playground"><div class="academy-playground-head"><div><span class="academy-card-tag">ESPACE DE CODE</span><h3>Écris et copie ton exemple</h3></div><span class="academy-language">'+(c.skills[0]||"CODE")+'</span></div><textarea id="academyCode" spellcheck="false" autocapitalize="off" autocomplete="off">'+safe((ex||{code:"// Écris ton exemple ici"}).code)+'</textarea><div class="academy-play-actions"><button class="academy-copy" id="academyCopy">Copier le code</button><button class="academy-reset" id="academyReset">Réinitialiser</button></div><div class="academy-run-info" id="academyRunInfo">Cet éditeur te permet de préparer et copier le code. L’exécution de '+safe(c.skills.join(", "))+' nécessite un moteur adapté, qui n’est pas encore intégré dans cette version.</div></section>';
-    $("#academyDialogContent").innerHTML='<div class="academy-reader"><div class="academy-reader-head"><div><span class="academy-card-tag">'+c.tag+'</span><h2 id="academyDialogTitle">'+c.title+'</h2><p>'+c.desc+'</p></div><span class="academy-reader-progress">'+pct+'% terminé</span></div><div class="academy-progress"><i style="width:'+pct+'%"></i></div><div class="academy-reader-layout"><nav class="academy-lesson-nav"><strong>CONTENU DU COURS</strong>'+c.lessons.map((l,i)=>'<button class="'+(i===lessonIndex?'active':'')+'" data-read-lesson="'+i+'"><span>'+(completed[c.id+"-"+i]?'✓':String(i+1).padStart(2,"0"))+'</span>'+safe(l[0])+'</button>').join("")+'</nav><article class="academy-lesson-reader"><span class="academy-card-tag">LEÇON '+(lessonIndex+1)+' / '+c.lessons.length+'</span><h3>'+safe(lesson[0])+'</h3><p class="academy-lesson-intro">'+safe(body.intro||lesson[1])+'</p><h4>À retenir</h4><ul>'+(body.points||[]).map(x=>'<li>'+safe(x)+'</li>').join("")+'</ul><div class="academy-example"><strong>EXEMPLE</strong><p>'+safe(body.example||"Observe cet exemple et identifie les notions importantes.")+'</p></div><div class="academy-exercise"><strong>À TOI DE JOUER</strong><p>'+safe(body.exercise||"Réalise un petit exercice avec cette notion.")+'</p></div>'+editor+'<button class="academy-mark-done" id="academyMarkDone">'+(completed[c.id+"-"+lessonIndex]?'✓ Leçon terminée — cliquer pour annuler':'Marquer cette leçon comme terminée')+'</button><div class="academy-reader-next"><button id="academyPrevious" '+(lessonIndex===0?'disabled':'')+'>← Précédente</button><button id="academyNext" '+(lessonIndex===c.lessons.length-1?'disabled':'')+'>Leçon suivante →</button></div></article></div></div>';
-    const d=$("#academyDialog");if(!d.open)d.showModal();
-    $("#academyDialogContent").dataset.course=id;$("#academyDialogContent").dataset.lesson=lessonIndex;
-    bindReader(c,lessonIndex,ex);
-  }
-  function bindReader(c,index,ex){
-    const root=$("#academyDialogContent");
-    root.querySelectorAll("[data-read-lesson]").forEach(b=>b.addEventListener("click",()=>openCourse(c.id,Number(b.dataset.readLesson))));
-    $("#academyMarkDone").addEventListener("click",()=>{completed[c.id+"-"+index]=!completed[c.id+"-"+index];localStorage.setItem("co-academy-progress",JSON.stringify(completed));openCourse(c.id,index);render();});
-    $("#academyPrevious").addEventListener("click",()=>openCourse(c.id,index-1));
-    $("#academyNext").addEventListener("click",()=>openCourse(c.id,index+1));
-    const editor=$("#academyCode");
-    $("#academyCopy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(editor.value);$("#academyRunInfo").textContent="Code copié dans le presse-papiers."; }catch(e){editor.select();document.execCommand("copy");$("#academyRunInfo").textContent="Code sélectionné/copier selon les options de ton navigateur.";}});
-    $("#academyReset").addEventListener("click",()=>{editor.value=(ex||{code:"// Écris ton exemple ici"}).code;$("#academyRunInfo").textContent="Exemple initial restauré.";});
-    if($("#academyRun"))$("#academyRun").addEventListener("click",()=>{
-      if(ex.lang!=="html"){ $("#academyRunInfo").textContent="Ce langage ne s’exécute pas directement dans un navigateur. Utilise l’éditeur pour préparer le code ; un moteur adapté sera intégré dans une prochaine étape.";return;}
-      const frame=$("#academyPreview"),doc=frame.contentDocument;doc.open();doc.write(editor.value);doc.close();$("#academyRunInfo").textContent="Exécution terminée dans l’aperçu isolé ci-dessous.";
-    });
-  }
-  grid.addEventListener("click",e=>{const b=e.target.closest("[data-open-course]");if(b)openCourse(b.dataset.openCourse);});
-  $("#academyDialogClose").addEventListener("click",()=>$("#academyDialog").close());
-  $("#academyDialog").addEventListener("click",e=>{if(e.target===$("#academyDialog"))$("#academyDialog").close();});
-  $("#academySearch").addEventListener("input",render);
-  $("#academyLevel").addEventListener("change",render);
-  $("#academyCategories").addEventListener("click",e=>{const b=e.target.closest("[data-acategory]");if(!b)return;activeCategory=b.dataset.acategory;$("#academyCategories").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));render();});
-  const installButton=$("#installPwaButton");let installPrompt=null;
-  window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installPrompt=e;if(installButton)installButton.hidden=false;});
-  if(installButton)installButton.addEventListener("click",async()=>{
-    if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;installButton.hidden=true;return;}
-    const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
-    $("#academyInstallInfo").hidden=false;
-    $("#academyInstallInfo").textContent=ios?"Sur iPhone/iPad : ouvre ce site dans Safari, touche Partager (□↑), puis « Sur l’écran d’accueil » et confirme.":"Pour installer : ouvre le menu de ton navigateur puis choisis « Installer l’application » ou « Ajouter à l’écran d’accueil ». Sur Android, Chrome propose aussi cette option dans le menu ⋮.";
-  });
-  render();
+"use strict";
+const $=(s,r=document)=>r.querySelector(s),grid=$("#academyGrid"),courses=window.CongoCourses||[];
+if(!grid||!courses.length)return;
+const images={Technologie:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",Business:"https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=80",Création:"https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=900&q=80",Sciences:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",Carrière:"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"};
+const completed=(()=>{try{return JSON.parse(localStorage.getItem("co-academy-progress")||"{}")}catch{return{}}})();
+const totalLessons=courses.reduce((n,c)=>n+c.lessons.length,0),safe=v=>String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+let activeCategory="Tous",activeCourse=null,activeLesson=0;
+function progress(c){return Math.round(c.lessons.filter((_,i)=>completed[c.id+"-"+i]).length/c.lessons.length*100)}
+function stats(){$("#academyCourseCount").textContent=courses.length;$("#academyLessonCount").textContent=totalLessons;$("#academyProgressCount").textContent=Object.values(completed).filter(Boolean).length}
+function render(){
+const q=$("#academySearch").value.trim().toLocaleLowerCase("fr"),level=$("#academyLevel").value;
+const list=courses.filter(c=>(activeCategory==="Tous"||c.category===activeCategory)&&(!level||c.level===level)&&(!q||[c.title,c.desc,c.tag,c.skills.join(" ")].join(" ").toLocaleLowerCase("fr").includes(q)));
+$("#academyResultsCount").textContent=list.length+" parcours";
+grid.innerHTML=list.length?list.map((c,i)=>'<article class="academy-card" style="--card-index:'+Math.min(i,8)+'"><div class="academy-cover"><img loading="lazy" src="'+(images[c.category]||images.Technologie)+'" alt="" onerror="this.style.display=\'none\'"><span class="academy-course-icon '+c.tone+'">'+safe(c.icon)+'</span><span class="academy-level">'+safe(c.level)+'</span></div><div class="academy-card-body"><span class="academy-card-tag">'+safe(c.tag)+'</span><h3>'+safe(c.title)+'</h3><p>'+safe(c.desc)+'</p><div class="academy-skills">'+c.skills.map(x=>'<span>'+safe(x)+'</span>').join("")+'</div><div class="academy-card-bottom"><span>'+c.lessons.length+' leçons</span><span>'+progress(c)+'% terminé</span></div><div class="academy-progress"><i style="width:'+progress(c)+'%"></i></div><button class="academy-open" type="button" data-open-course="'+safe(c.id)+'">Ouvrir le cours <span>→</span></button></div></article>').join(""):'<div class="academy-no-results"><span>⌕</span><h3>Aucun cours trouvé</h3><p>Essaie un autre mot-clé ou un autre domaine.</p></div>';
+stats();
+}
+function sample(c){
+if(c.id==="web")return '<h1>Bonjour !</h1>\n<p>Ma première page web.</p>\n<button onclick="document.querySelector(\'p\').textContent=\'Bravo, ça fonctionne !\'">Tester</button>';
+if(c.id==="python")return 'nom = "Congo"\nprint("Bonjour", nom)';
+if(c.id==="php")return '<?php\n$nom = "Congo";\necho "Bonjour " . $nom;\n?>';
+if(c.id==="flutter")return 'void main() {\n  print("Bonjour Congo");\n}';
+if(c.id==="sql")return 'SELECT nom, ville\nFROM apprenants\nORDER BY nom;';
+return 'console.log("Bonjour Congo Opportunités !");';
+}
+function lessonMarkup(c,i){
+const l=c.lessons[i],code=sample(c),intro=l[1]||"Découvre les notions essentielles de cette leçon.";
+return '<div class="lesson-reading"><span class="academy-card-tag">LEÇON '+String(i+1).padStart(2,"0")+'</span><h2>'+safe(l[0])+'</h2><p class="lesson-lead">'+safe(intro)+'</p><section class="lesson-block"><h3>Comprendre</h3><p>'+safe(intro)+' Cette étape te permet de construire une base solide. Lis les notions, observe l’exemple, puis modifie-le pour vérifier que tu as compris.</p><p>Commence par identifier le rôle de chaque élément. Essaie ensuite de prévoir le résultat avant de lancer l’exemple. Avance progressivement, une petite modification à la fois.</p></section><section class="lesson-callout"><strong>À retenir</strong><p>Comprendre le principe, savoir quand l’utiliser et être capable de l’expliquer avec tes propres mots.</p></section><section class="lesson-block"><h3>Mini-défi</h3><p>Reproduis l’exemple, change une valeur ou un élément, puis observe le résultat. Note ce que tu as appris.</p></section><pre class="lesson-code"><code>'+safe(code)+'</code></pre><div class="lesson-actions"><button class="academy-primary" type="button" data-open-lab="'+safe(c.id)+'">Ouvrir l’espace pratique</button><button class="academy-quiet" type="button" data-mark-lesson="'+safe(c.id)+'-'+i+'">'+(completed[c.id+"-"+i]?"✓ Leçon terminée":"Marquer comme terminée")+'</button></div></div>';
+}
+function reader(){
+const c=activeCourse;if(!c)return;const pct=progress(c);
+$("#academyDialogContent").innerHTML='<div class="reader-top"><div><span class="academy-card-tag">'+safe(c.tag)+'</span><h2 id="academyDialogTitle">'+safe(c.title)+'</h2><p>'+safe(c.desc)+'</p></div><div class="reader-progress"><strong>'+pct+'%</strong><span>progression</span></div></div><div class="academy-progress"><i style="width:'+pct+'%"></i></div><div class="reader-layout"><nav class="reader-lessons" aria-label="Leçons du cours"><h3>Contenu du cours</h3>'+c.lessons.map((l,i)=>'<button type="button" class="reader-lesson '+(i===activeLesson?'active ':'')+(completed[c.id+"-"+i]?'done':'')+'" data-select-lesson="'+i+'"><span>'+(completed[c.id+"-"+i]?'✓':String(i+1).padStart(2,"0"))+'</span><span>'+safe(l[0])+'</span></button>').join("")+'</nav><main class="reader-main">'+lessonMarkup(c,activeLesson)+'<div class="reader-pager"><button type="button" class="academy-quiet" data-prev '+(activeLesson===0?'disabled':'')+'>← Précédent</button><span>Leçon '+(activeLesson+1)+' / '+c.lessons.length+'</span><button type="button" class="academy-primary" data-next '+(activeLesson===c.lessons.length-1?'disabled':'')+'>Suivant →</button></div></main></div><div class="academy-disclaimer">Les cours sont hébergés directement dans Congo Opportunités. Les contenus seront enrichis progressivement.</div>';
+}
+function openCourse(id){activeCourse=courses.find(c=>c.id===id);activeLesson=0;if(!activeCourse)return;reader();const d=$("#academyDialog");if(!d.open)d.showModal()}
+function openLab(id){
+const c=courses.find(x=>x.id===id);if(!c)return;
+const lang=c.id==="web"?"html":c.id==="python"?"python":c.id==="php"?"php":c.id==="flutter"?"dart":c.id==="sql"?"sql":"javascript";
+$("#academyDialogContent").innerHTML='<div class="lab-heading"><span class="academy-card-tag">ATELIER INTERACTIF</span><h2>Espace de code</h2><p>Écris, modifie et teste ton exemple sans quitter le cours.</p></div><div class="lab-toolbar"><label>Langage<select id="labLanguage"><option value="html">HTML</option><option value="css">CSS</option><option value="javascript">JavaScript</option><option value="python">Python</option><option value="php">PHP</option><option value="sql">SQL</option><option value="dart">Dart / Flutter</option></select></label><button class="academy-primary" id="runCode" type="button">▶ Exécuter</button><button class="academy-quiet" id="resetCode" type="button">Réinitialiser</button></div><textarea class="code-editor" id="codeEditor" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Éditeur de code"></textarea><div class="lab-output-head"><strong>Résultat</strong><span id="labStatus">Prêt à exécuter</span></div><iframe class="code-output" id="codeOutput" title="Résultat du code" sandbox="allow-scripts"></iframe><p class="lab-note" id="labNote">Aperçu local isolé. Le code ne peut pas accéder aux données du compte.</p><button class="academy-quiet" type="button" id="backToLesson">← Retour au cours</button>';
+const select=$("#labLanguage"),editor=$("#codeEditor");select.value=lang;editor.value=sample(c);const initial=editor.value;
+function run(){
+const mode=select.value,code=editor.value,frame=$("#codeOutput");
+if(["html","css","javascript"].includes(mode)){
+let page=mode==="html"?code:mode==="css"?'<!doctype html><html><head><style>'+code+'</style></head><body><h1>Mon aperçu CSS</h1><p>Modifie les styles pour observer le résultat.</p></body></html>':'<!doctype html><html><body><h1>Console JavaScript</h1><pre id="log"></pre><script>const log=(...v)=>document.querySelector("#log").textContent+=v.join(" ")+"\\n";console.log=log;try{'+code+'}catch(e){log(e.message)}<\\/script></body></html>';
+frame.srcdoc=page;$("#labStatus").textContent="Exécuté dans l’aperçu";$("#labNote").textContent="Aperçu local isolé. Les scripts n’ont pas accès au compte ni aux données du site.";
+}else{
+frame.srcdoc='<!doctype html><html><body style="font:14px system-ui;padding:18px;color:#334"><h3>Environnement non activé</h3><p>Le code '+safe(mode.toUpperCase())+' reste dans l’éditeur, mais ce langage nécessite un moteur dédié qui n’est pas encore intégré.</p></body></html>';
+$("#labStatus").textContent="Moteur non intégré";$("#labNote").textContent="HTML, CSS et JavaScript sont exécutables ici. Python, PHP, SQL et Dart/Flutter nécessitent un moteur adapté.";
+}}
+$("#runCode").addEventListener("click",run);$("#resetCode").addEventListener("click",()=>{editor.value=initial;$("#labStatus").textContent="Exemple restauré"});select.addEventListener("change",()=>{editor.value=sample(c)});$("#backToLesson").addEventListener("click",reader);
+}
+grid.addEventListener("click",e=>{const b=e.target.closest("[data-open-course]");if(b)openCourse(b.dataset.openCourse)});
+$("#academyDialogContent").addEventListener("click",e=>{
+const lesson=e.target.closest("[data-select-lesson]");if(lesson){activeLesson=Number(lesson.dataset.selectLesson);reader();return}
+if(e.target.closest("[data-prev]")){activeLesson=Math.max(0,activeLesson-1);reader();return}
+if(e.target.closest("[data-next]")){activeLesson=Math.min(activeCourse.lessons.length-1,activeLesson+1);reader();return}
+const lab=e.target.closest("[data-open-lab]");if(lab){openLab(lab.dataset.openLab);return}
+const mark=e.target.closest("[data-mark-lesson]");if(mark){completed[mark.dataset.markLesson]=!completed[mark.dataset.markLesson];localStorage.setItem("co-academy-progress",JSON.stringify(completed));reader();render()}
+});
+$("#academyDialogClose").addEventListener("click",()=>$("#academyDialog").close());
+$("#academyDialog").addEventListener("click",e=>{if(e.target===$("#academyDialog"))$("#academyDialog").close()});
+$("#academySearch").addEventListener("input",render);$("#academyLevel").addEventListener("change",render);
+$("#academyCategories").addEventListener("click",e=>{const b=e.target.closest("[data-acategory]");if(!b)return;activeCategory=b.dataset.acategory;$("#academyCategories").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));render()});
+render();
 })();

@@ -27,7 +27,8 @@
     ├── icons/
     │   ├── icon.svg
     │   └── icon-180.png
-    └── og-cover.svg
+    ├── og-cover.svg
+    └── og-cover.png
 ```
 
 ## Fonctionnalités présentes

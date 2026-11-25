@@ -86,3 +86,12 @@ button:active{filter:brightness(1.08);transform:scale(.985)}
 @media(prefers-reduced-motion:reduce){button:active{transform:none}}
 .light-mode .pwa-dialog{background:#fff;color:#142a3b}
 .light-mode .pwa-dialog ol{color:#142a3b}
+
+
+@keyframes academyDialogIn{from{opacity:0}to{opacity:1}}
+.academy-dialog[open],.pwa-dialog[open]{animation:academyDialogIn .18s ease-out both}
+.lesson-reading{animation:academyDialogIn .2s ease-out both}
+.academy-progress i{transition:width .28s ease}
+.academy-chip{transition:background .18s,border-color .18s,color .18s}
+.academy-open:active,.academy-primary:active,.academy-quiet:active{filter:brightness(1.12)}
+@media(prefers-reduced-motion:reduce){.academy-dialog[open],.pwa-dialog[open],.lesson-reading{animation:none!important}}

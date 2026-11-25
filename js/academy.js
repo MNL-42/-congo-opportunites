@@ -17,7 +17,15 @@ stats();
 }
 function sample(c,language){
 const lang=language||(c.id==="web"?"html":c.id==="python"?"python":c.id==="php"?"php":c.id==="flutter"?"dart":c.id==="sql"?"sql":"javascript");
-const samples={html:'<!doctype html>\\n<html lang="fr"><body><h1>Bonjour Congo !</h1><p>Ma première page.</p><button onclick="this.textContent=\\'Bravo !\\'">Tester</button></body></html>',css:'body { font-family: Arial; padding: 24px; background: #e8fff4; }\\nh1 { color: #087a5b; }',javascript:'const nom = "Congo";\\nconsole.log("Bonjour " + nom);\\ndocument.body.innerHTML += "<p>Le code fonctionne !</p>";',python:'nom = "Congo"\\nprint("Bonjour", nom)',php:'<?php\\n$nom = "Congo";\\necho "Bonjour " . $nom;\\n?>',dart:'void main() {\\n  final nom = "Congo";\\n  print("Bonjour $nom");\\n}',sql:'SELECT nom, ville\\nFROM apprenants\\nORDER BY nom;'};
+const samples={
+html:['<!doctype html>','<html lang="fr"><body>','<h1>Bonjour Congo !</h1>','<p>Ma première page.</p>','<button onclick="this.textContent=&quot;Bravo !&quot;">Tester</button>','</body></html>'].join("\n"),
+css:['body { font-family: Arial; padding: 24px; background: #e8fff4; }','h1 { color: #087a5b; }'].join("\n"),
+javascript:['const nom = "Congo";','console.log("Bonjour " + nom);','document.body.innerHTML += "<p>Le code fonctionne !</p>";'].join("\n"),
+python:['nom = "Congo"','print("Bonjour", nom)'].join("\n"),
+php:['<?php','$nom = "Congo";','echo "Bonjour " . $nom;','?>'].join("\n"),
+dart:['void main() {','  final nom = "Congo";','  print("Bonjour $nom");','}'].join("\n"),
+sql:['SELECT nom, ville','FROM apprenants','ORDER BY nom;'].join("\n")
+};
 return samples[lang]||samples.javascript;
 }
 function lessonMarkup(c,i){

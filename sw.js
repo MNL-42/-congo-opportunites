@@ -1,5 +1,5 @@
-const CACHE_NAME = "congo-opportunites-v1";
-const CORE = ["./", "./index.html", "./manifest.json", "./css/style.css", "./css/responsive.css", "./js/config.js", "./js/auth.js", "./js/app.js", "./assets/icons/icon.svg"];
+const CACHE_NAME = "congo-opportunites-v2";
+const CORE = ["./", "./index.html", "./manifest.json", "./style.css", "./responsive.css", "./config.js", "./auth.js", "./app.js", "./icon.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE)));
   self.skipWaiting();

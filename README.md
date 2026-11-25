@@ -1,52 +1,52 @@
 # Congo Opportunités
 
-PWA mobile-first pour centraliser les opportunités destinées aux jeunes de la RDC.
+**Congo Opportunités** est une plateforme destinée aux jeunes de la République démocratique du Congo : opportunités de formation, bourses, stages, emplois, concours, projets numériques et ressources d'apprentissage.
 
-## État de cette livraison
+## État réel du dépôt
 
-Cette première livraison contient l'interface frontend, la navigation, les écrans vides honnêtes, le thème, le manifeste PWA et le service worker.
+Cette version corrige les chemins des ressources frontend, le responsive mobile, la navigation, le thème clair/sombre et le cache PWA.
 
-**Ce n'est pas encore une application connectée à une base de données.** Les annonces et les profils réels ne sont pas encore chargés. L'authentification Google nécessite une configuration Supabase.
+Les écrans sont prêts côté interface, mais les fonctions qui dépendent d'un serveur ne doivent pas être présentées comme actives tant que le backend n'est pas configuré :
+- Connexion Google : nécessite un projet Supabase et Google OAuth.
+- Catalogue réel : nécessite les tables Supabase, des annonces vérifiées et les politiques RLS.
+- Favoris et profil modifiables : nécessitent une session et des tables protégées.
+- Administration : doit être réservée à des comptes d'équipe autorisés côté serveur.
 
-## Déployer depuis Android
+Aucune fausse annonce ni fausse connexion n'est affichée.
 
-1. Télécharge et décompresse `congo-opportunites.zip`.
-2. Sur GitHub, crée un dépôt public nommé `congo-opportunites`.
-3. Dans le dépôt, choisis **Add file > Upload files**.
-4. Envoie le contenu du dossier (pas uniquement le ZIP).
-5. Valide avec **Commit changes**.
-6. Va dans **Settings > Pages**.
-7. Choisis **Deploy from a branch**, branche `main`, dossier `/ (root)`, puis **Save**.
-8. Attends la fin du déploiement. L'adresse sera de la forme `https://TON-PSEUDO.github.io/congo-opportunites/`.
+## Déploiement
 
-## Configurer Google avec Supabase — après le déploiement
+Le dépôt est servi par GitHub Pages depuis la branche `main`. Après chaque commit, attendre la fin du déploiement puis recharger le site. Si l'ancienne version reste visible, vider les données du site dans le navigateur ou patienter le temps que le cache se renouvelle.
 
-1. Crée un projet sur https://supabase.com.
-2. Dans **Project Settings > API**, récupère le Project URL et la clé `anon`/`publishable`.
-3. Colle-les dans `js/config.js`. N'utilise jamais la clé `service_role`.
-4. Dans Supabase, ouvre **Authentication > Providers > Google** et active Google.
-5. Configure un client OAuth Google dans Google Cloud Console. Ajoute l'URL de rappel Supabase affichée dans la page du fournisseur Google.
-6. Dans Supabase **Authentication > URL Configuration**, ajoute l'URL exacte de ton site GitHub Pages dans les Redirect URLs.
-7. Teste la connexion Google sur le site publié.
+## Configurer Supabase
 
-La configuration OAuth Google exige des identifiants créés dans Google Cloud. Les écrans et libellés peuvent évoluer : suis les URLs de rappel affichées par Supabase.
+1. Créer un projet sur https://supabase.com.
+2. Dans Project Settings > API, récupérer le Project URL et la clé publique `anon`/publishable.
+3. Ajouter ces valeurs dans `config.js` (`SUPABASE_URL` et `SUPABASE_ANON_KEY`).
+4. Activer Google dans Authentication > Providers.
+5. Configurer le client OAuth Google et les URL de rappel indiquées par Supabase.
+6. Ajouter l'URL GitHub Pages dans Authentication > URL Configuration > Redirect URLs.
 
-## Tester localement
+**Ne jamais mettre la clé `service_role` dans le dépôt ou dans le navigateur.**
 
-Un simple aperçu de fichiers peut fonctionner pour le design, mais l'authentification et le service worker exigent un site servi en HTTPS ou localhost. GitHub Pages fournit HTTPS.
+## Étape backend indispensable
 
-## Prochaines étapes techniques
+Avant d'ouvrir les inscriptions au public, créer et tester les tables PostgreSQL, les politiques RLS et les rôles d'équipe. Un compte ne doit jamais pouvoir devenir administrateur en modifiant son profil depuis le navigateur.
 
-- Créer les tables PostgreSQL.
-- Activer et tester les politiques RLS.
-- Ajouter les rôles équipe via une procédure sécurisée.
-- Connecter le catalogue d'opportunités à la base.
-- Ajouter la modération et les journaux d'audit.
-- Ajouter les parcours de l'Académie.
+Chaque opportunité doit contenir sa source officielle, sa date de vérification, sa date limite et ses conditions. L'équipe doit retirer ou marquer les annonces expirées.
 
-## Sécurité
+## Structure actuelle
 
-- Ne jamais publier une clé `service_role`.
-- Ne jamais donner un rôle administrateur en se basant sur une valeur contrôlée par le navigateur.
-- Toutes les tables exposées doivent avoir des politiques RLS testées.
-- Les annonces doivent conserver leur source et leur date de vérification.
+- `index.html` : interface principale
+- `style.css`, `responsive.css` : design et adaptation mobile
+- `app.js` : navigation, thème, interactions d'interface
+- `auth.js`, `config.js` : base de l'authentification Supabase
+- `manifest.json`, `sw.js`, `icon.svg` : PWA
+
+## Sécurité et protection des utilisateurs
+
+- Ne jamais publier de données personnelles inutiles.
+- Activer RLS sur toutes les tables exposées.
+- Protéger les comptes d'administration côté serveur.
+- Modérer les contenus soumis par les membres.
+- Vérifier les liens et l'identité des organismes avant toute publication.

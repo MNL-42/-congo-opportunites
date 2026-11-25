@@ -1,0 +1,19 @@
+{
+  "name": "Congo Opportunités",
+  "short_name": "Congo Opp.",
+  "description": "Les opportunités pour les talents congolais.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1724",
+  "theme_color": "#0b1724",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "./assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

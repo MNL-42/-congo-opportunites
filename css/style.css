@@ -72,3 +72,17 @@ body.light-mode .google-button{background:#f5f8fa;color:#142a3b}
 .pwa-dialog ol{padding-left:20px}.pwa-dialog li{font-size:11px;line-height:1.8;margin:7px 0}.pwa-dialog strong{color:var(--green2)}
 .pwa-dialog .pwa-tip{border-top:1px solid var(--line);padding-top:12px;margin-top:16px}
 .light-mode .pwa-dialog{background:#fff;color:#142a3b}
+
+
+/* Feedback tactile et fenêtre d'installation PWA */
+.pwa-dialog{width:min(430px,calc(100% - 28px));max-height:85dvh;overflow:auto;border:1px solid #315747;border-radius:20px;background:#102130;color:var(--text);padding:25px;box-shadow:0 25px 80px #0009}
+.pwa-dialog::backdrop{background:#020910c9;backdrop-filter:blur(6px)}
+.pwa-dialog h2{font:700 23px Outfit;margin:12px 0 8px}
+.pwa-dialog p{font-size:12px;color:var(--muted);line-height:1.75}
+.pwa-dialog ol{padding-left:20px;color:var(--text);font-size:12px;line-height:1.9}
+.pwa-dialog li{padding:3px 0}
+.pwa-tip{border-top:1px solid var(--line);padding-top:12px}
+button:active{filter:brightness(1.08);transform:scale(.985)}
+@media(prefers-reduced-motion:reduce){button:active{transform:none}}
+.light-mode .pwa-dialog{background:#fff;color:#142a3b}
+.light-mode .pwa-dialog ol{color:#142a3b}

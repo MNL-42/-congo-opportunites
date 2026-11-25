@@ -155,19 +155,36 @@ body.light-mode .google-button{background:#f5f8fa;color:#142a3b}
           </div>
         </section>
 
-        <section class="view" id="view-academie">
-          <div class="page-intro"><span class="eyebrow green">APPRENDS À TON RYTHME</span><h1>Académie numérique</h1><p>Des ressources pour construire des compétences utiles dans le monde numérique.</p></div>
-          <div class="feature-banner"><div><span class="eyebrow">TON APPRENTISSAGE</span><h2>Chaque compétence<br>ouvre une porte.</h2><p>Les premiers parcours pédagogiques seront publiés progressivement.</p></div><div class="feature-symbol">✳</div></div>
-          <div class="section-heading"><div><span class="eyebrow">PARCOURS PRÉVUS</span><h2>Explore les domaines</h2></div></div>
-          <div class="course-grid">
-            <article class="course-card"><span class="course-icon mint">⌘</span><span class="course-tag">DÉVELOPPEMENT</span><h3>Développement web</h3><p>HTML, CSS et JavaScript.</p></article>
-            <article class="course-card"><span class="course-icon blue">Py</span><span class="course-tag">PROGRAMMATION</span><h3>Python</h3><p>Découvrir la logique et le code.</p></article>
-            <article class="course-card"><span class="course-icon violet">✧</span><span class="course-tag">INNOVATION</span><h3>Intelligence artificielle</h3><p>Comprendre les outils et leurs usages.</p></article>
-            <article class="course-card"><span class="course-icon gold">⌑</span><span class="course-tag">SÉCURITÉ</span><h3>Cybersécurité</h3><p>Protéger ses comptes et ses appareils.</p></article>
-          </div>
-        </section>
+        <section class="view academy-view" id="view-academie">
+  <div class="page-intro academy-intro">
+    <span class="eyebrow green">APPRENDS • PRATIQUE • PROGRESSE</span>
+    <h1>L'Académie des talents</h1>
+    <p>Des parcours accessibles pour apprendre un métier, lancer une activité et construire ton avenir.</p>
+  </div>
+  <div class="academy-hero">
+    <div><span class="academy-kicker">TON CAMPUS NUMÉRIQUE ET PROFESSIONNEL</span><h2>Apprends une compétence.<br><em>Transforme tes idées en actions.</em></h2><p>Du premier code à la création d'une entreprise, avance à ton rythme.</p>
+      <div class="academy-hero-stats"><span><b id="academyCourseCount">16+</b> parcours</span><span><b id="academyLessonCount">80+</b> leçons à découvrir</span><span><b id="academyProgressCount">0</b> leçons terminées</span></div>
+    </div>
+    <div class="academy-orbit-art" aria-hidden="true"><div class="academy-orbit-ring"></div><div class="academy-orbit-core">A<span>+</span></div><i>CODE</i><b>BUSINESS</b><small>IDEAS → IMPACT</small></div>
+  </div>
+  <div class="academy-toolbar">
+    <label class="academy-search"><span>⌕</span><input id="academySearch" type="search" placeholder="Rechercher un cours, une compétence..." aria-label="Rechercher un cours"></label>
+    <select id="academyLevel" aria-label="Filtrer par niveau"><option value="">Tous les niveaux</option><option value="Débutant">Débutant</option><option value="Intermédiaire">Intermédiaire</option><option value="Avancé">Avancé</option></select>
+  </div>
+  <div class="academy-categories" id="academyCategories" aria-label="Catégories de cours">
+    <button class="academy-chip active" data-acategory="Tous">Tous les domaines</button>
+    <button class="academy-chip" data-acategory="Technologie">Technologie</button>
+    <button class="academy-chip" data-acategory="Business">Entrepreneuriat & gestion</button>
+    <button class="academy-chip" data-acategory="Création">Création & design</button>
+    <button class="academy-chip" data-acategory="Sciences">Sciences & industrie</button>
+    <button class="academy-chip" data-acategory="Carrière">Carrière & langues</button>
+  </div>
+  <div class="academy-results"><div><span class="eyebrow">BIBLIOTHÈQUE DE FORMATION</span><h2>Choisis ton prochain parcours</h2></div><span id="academyResultsCount">16 parcours</span></div>
+  <div class="academy-grid" id="academyGrid" aria-live="polite"></div>
+  <div class="academy-bottom-note"><span>✦</span><div><strong>Apprendre, c'est construire son autonomie.</strong><p>Les parcours sont organisés pour progresser étape par étape. Les contenus seront enrichis au fil des publications.</p></div></div>
+</section>
 
-        <section class="view" id="view-projets">
+<section class="view" id="view-projets">
           <div class="page-intro"><span class="eyebrow green">PASSE DE L'IDÉE À L'ACTION</span><h1>Projets & défis</h1><p>Découvre des initiatives pour expérimenter, apprendre et collaborer.</p></div>
           <div class="empty-state"><div class="empty-icon">◇</div><h3>Le prochain défi se prépare</h3><p>Les défis seront publiés par l'équipe avec leurs objectifs, conditions de participation et dates limites.</p></div>
         </section>
@@ -191,7 +208,11 @@ body.light-mode .google-button{background:#f5f8fa;color:#142a3b}
     </main>
   </div>
 
-  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-overlay" id="mobileOverlay"></div>\n\n  <dialog class="academy-dialog" id="academyDialog" aria-labelledby="academyDialogTitle">
+  <button class="academy-dialog-close" id="academyDialogClose" aria-label="Fermer">×</button>
+  <div id="academyDialogContent"></div>
+</dialog>
+
 
   <dialog class="auth-dialog" id="authDialog">
     <button class="dialog-close" id="closeAuth" aria-label="Fermer">×</button>
@@ -207,6 +228,6 @@ body.light-mode .google-button{background:#f5f8fa;color:#142a3b}
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./js/config.js"></script>
   <script src="./js/auth.js"></script>
-  <script src="./js/app.js"></script>
+  <script src="./js/app.js"></script>\n  <script src="./js/academy.js?v=20261125-1"></script>
 </body>
 </html>

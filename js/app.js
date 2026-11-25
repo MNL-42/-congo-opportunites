@@ -1,57 +1,91 @@
 (() => {
-  const $ = (id) => document.getElementById(id);
-  const titles = { accueil:"Tableau de bord", decouvrir:"Découvrir les opportunités", academie:"Académie numérique", projets:"Projets & défis", favoris:"Mes favoris", profil:"Mon profil" };
-  const sidebar = $("sidebar"), overlay = $("mobileOverlay"), dialog = $("authDialog");
-  function go(view) {
-    if (!titles[view]) return;
-    document.querySelectorAll(".view").forEach(el => el.classList.toggle("active", el.id === "view-" + view));
-    document.querySelectorAll("[data-view]").forEach(el => el.classList.toggle("active", el.dataset.view === view));
-    $("pageHeading").textContent = titles[view];
-    sidebar.classList.remove("open"); overlay.classList.remove("show");
-    window.scrollTo({top:0,behavior:"smooth"});
+  const $ = (selector) => document.querySelector(selector);
+  const $$ = (selector) => [...document.querySelectorAll(selector)];
+  const views = ["accueil", "decouvrir", "academie", "projets", "favoris", "profil"];
+  const titles = {accueil:"Tableau de bord",decouvrir:"Découvrir les opportunités",academie:"Académie numérique",projets:"Projets & défis",favoris:"Mes favoris",profil:"Mon profil"};
+  const sidebar = $("#sidebar"), overlay = $("#mobileOverlay"), dialog = $("#authDialog");
+
+  function showView(name) {
+    if (!views.includes(name)) return;
+    $$(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + name));
+    $$(".nav-link[data-view]").forEach(b => b.classList.toggle("active", b.dataset.view === name));
+    $("#pageHeading").textContent = titles[name];
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+    if (location.hash !== "#" + name) history.replaceState(null, "", "#" + name);
+    window.scrollTo({top:0, behavior:"smooth"});
   }
-  document.addEventListener("click", e => {
-    const nav = e.target.closest("[data-view]");
-    const target = e.target.closest("[data-go]");
-    if (nav) go(nav.dataset.view);
-    if (target) go(target.dataset.go);
+
+  document.addEventListener("click", event => {
+    const nav = event.target.closest("[data-view]");
+    const target = event.target.closest("[data-go]");
+    if (nav) showView(nav.dataset.view);
+    if (target) showView(target.dataset.go);
   });
-  $("menuToggle").addEventListener("click", () => { sidebar.classList.toggle("open"); overlay.classList.toggle("show"); });
-  overlay.addEventListener("click", () => { sidebar.classList.remove("open"); overlay.classList.remove("show"); });
-  $("themeToggle").addEventListener("click", () => {
-    const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem("congo-theme", next);
-    $("themeToggle").textContent = next === "light" ? "☀" : "◐";
+
+  $("#menuToggle").addEventListener("click", () => {
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
   });
+  overlay.addEventListener("click", () => {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+  });
+
   const savedTheme = localStorage.getItem("congo-theme") || "dark";
-  document.documentElement.dataset.theme = savedTheme;
-  $("themeToggle").textContent = savedTheme === "light" ? "☀" : "◐";
-  function openAuth(){ if (dialog && !dialog.open) dialog.showModal(); }
-  $("accountButton").addEventListener("click", openAuth);
-  $("profileSignIn").addEventListener("click", openAuth);
-  $("closeAuth").addEventListener("click", () => dialog.close());
-  $("googleSignIn").addEventListener("click", () => window.CONGO_AUTH?.signIn());
-  window.addEventListener("congo-auth-ready", event => {
-    const session = event.detail;
-    if (!session?.user) return;
-    const user = session.user;
-    const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "Membre";
-    const initial = name.trim().charAt(0).toUpperCase();
-    $("headerUserName").textContent = name.split(" ")[0];
-    $("headerUserStatus").textContent = "Connecté";
-    $("avatarInitials").textContent = initial;
-    $("profileAvatar").textContent = initial;
-    $("profileName").textContent = name;
-    $("profileEmail").textContent = user.email || "Compte Google connecté";
-    $("authMessage").textContent = "Connexion réussie.";
-    setTimeout(() => dialog.close(), 700);
+  if (savedTheme === "light") document.body.classList.add("light-mode");
+  $("#themeToggle").textContent = savedTheme === "light" ? "☀" : "◐";
+  $("#themeToggle").addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+    const light = document.body.classList.contains("light-mode");
+    localStorage.setItem("congo-theme", light ? "light" : "dark");
+    $("#themeToggle").textContent = light ? "☀" : "◐";
   });
-  $("year").textContent = new Date().getFullYear();
-  const search = $("searchInput");
-  if (search) search.addEventListener("input", () => {
-    $("resultsCount").textContent = search.value.trim() ? "Recherche prête — le catalogue sera disponible après activation de la base de données." : "Aucune annonce chargée";
-  });
+
+  function openAuth() {
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "");
+  }
+  $("#accountButton").addEventListener("click", openAuth);
+  $("#profileSignIn").addEventListener("click", openAuth);
+  $("#closeAuth").addEventListener("click", () => dialog.close());
+  $("#googleSignIn").addEventListener("click", () => window.CongoAuth?.signInWithGoogle());
+
+  function updateUser(session) {
+    const user = session?.user;
+    const name = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email || "Visiteur";
+    const initials = user ? name.trim().slice(0,1).toUpperCase() : "?";
+    $("#headerUserName").textContent = user ? name.split(" ")[0] : "Visiteur";
+    $("#headerUserStatus").textContent = user ? "Connecté" : "Non connecté";
+    $("#avatarInitials").textContent = initials;
+    $("#profileAvatar").textContent = initials;
+    $("#profileName").textContent = user ? name : "Profil non connecté";
+    $("#profileEmail").textContent = user?.email || "Connecte-toi pour commencer ton profil.";
+    if (user && dialog.open) dialog.close();
+  }
+
+  if (window.CongoAuth) {
+    window.CongoAuth.getSession().then(updateUser).catch(() => updateUser(null));
+    window.CongoAuth.onAuthChange(updateUser);
+  }
+  $("#year").textContent = new Date().getFullYear();
+
+  const search = $("#searchInput");
+  const category = $("#categoryFilter");
+  const province = $("#provinceFilter");
+  const count = $("#resultsCount");
+  function updateSearchState() {
+    const hasFilter = Boolean(search.value.trim() || category.value || province.value);
+    count.textContent = hasFilter
+      ? "Filtres enregistrés — les annonces seront consultables dès l’activation du catalogue."
+      : "Aucune annonce chargée";
+  }
+  [search, category, province].forEach(control => control?.addEventListener("input", updateSearchState));
+  [category, province].forEach(control => control?.addEventListener("change", updateSearchState));
+
+  const initialView = location.hash.replace("#", "");
+  if (views.includes(initialView)) showView(initialView);
+
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
   }

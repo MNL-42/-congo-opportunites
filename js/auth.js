@@ -15,6 +15,11 @@
 
   function installAuthForm(){
     if(!dialog || $("#emailAuthForm")) return;
+    if(!document.getElementById("authFormStyles")){
+      const style=document.createElement("style"); style.id="authFormStyles";
+      style.textContent=".email-auth-form{display:grid;gap:12px;margin:18px 0}.auth-field{display:grid;gap:7px;text-align:left;font-size:13px;color:var(--text-secondary,#aab7c4)}.auth-field input{width:100%;min-height:46px;border:1px solid var(--border,rgba(255,255,255,.14));border-radius:12px;padding:12px 14px;background:rgba(255,255,255,.06);color:inherit;font:inherit;outline:none}.auth-field input:focus{border-color:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,.15)}.auth-submit{width:100%;justify-content:center}.auth-links{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.auth-links button{border:0;background:none;color:#10b981;font:inherit;font-size:13px;cursor:pointer;padding:4px}.auth-message.success{color:#10b981}.auth-dialog #profileSignOut{margin:12px 0}";
+      document.head.appendChild(style);
+    }
     const intro = dialog.querySelector("p");
     if(intro) intro.textContent="Crée ton compte ou connecte-toi avec ton adresse e-mail.";
     const form=document.createElement("form");
@@ -35,7 +40,7 @@
     recovery.id="passwordRecoveryForm";
     recovery.className="email-auth-form";
     recovery.hidden=true;
-    recovery.innerHTML=`<p>Choisis un nouveau mot de passe.</p><label class="auth-field">Nouveau mot de passe<input name="password" type="password" minlength="8" required autocomplete="new-password"></label><button class="primary-button" type="submit">Enregistrer le mot de passe</button></form>`;
+    recovery.innerHTML=`<p>Choisis un nouveau mot de passe.</p><label class="auth-field">Nouveau mot de passe<input name="password" type="password" minlength="8" required autocomplete="new-password"></label><button class="primary-button" type="submit">Enregistrer le mot de passe</button>`;
     dialog.appendChild(recovery);
     recovery.addEventListener("submit", async e=>{
       e.preventDefault();

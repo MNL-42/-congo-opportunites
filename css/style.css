@@ -137,3 +137,36 @@ html.light-mode body .help-card p{color:#53697a}
 @media(max-width:760px){.main-footer{font-size:12px}.main-footer span:nth-child(2){display:inline}.footer-legal{width:100%;gap:12px}.topbar-title .eyebrow{font-size:12px}.quick-card small{font-size:12px}}
 @media(max-width:380px){.icon-button{width:44px;height:44px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+
+/* Navigation fiable et Académie — identité visuelle lumineuse */
+.nav-link{min-height:46px;cursor:pointer}
+.nav-link:focus-visible,.academy-chip:focus-visible,.academy-open:focus-visible{outline:3px solid #55e8b5;outline-offset:3px}
+.academy-hero{background:radial-gradient(circle at 78% 18%,#18d6a344,transparent 30%),radial-gradient(circle at 15% 100%,#4c7df033,transparent 34%),linear-gradient(125deg,#102b39ee,#14233bee 58%,#20234aee);backdrop-filter:blur(18px);box-shadow:0 22px 55px #0003}
+.academy-orbit-ring{animation:academyOrbit 18s linear infinite}
+.academy-orbit-core{animation:academyFloat 5s ease-in-out infinite}
+@keyframes academyOrbit{to{transform:rotate(325deg)}}
+@keyframes academyFloat{0%,100%{translate:0 0}50%{translate:0 -8px}}
+.academy-card{overflow:hidden;background:linear-gradient(145deg,#172d40dd,#101e2ddd);backdrop-filter:blur(16px);box-shadow:0 12px 30px #0002}
+.academy-cover{height:118px;position:relative;margin:-17px -17px 15px;overflow:hidden;background:linear-gradient(120deg,#10b98155,#397bd855,#9b72e855)}
+.academy-cover:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0b1724a8,transparent 80%)}
+.academy-cover img{width:100%;height:100%;object-fit:cover;opacity:.62;transition:transform .5s}
+.academy-card:hover .academy-cover img{transform:scale(1.07)}
+.academy-course-icon{position:absolute;z-index:1;left:14px;bottom:12px;background:#0b1724c9;border:1px solid #ffffff35;backdrop-filter:blur(12px);color:#8af0c8}
+.academy-level{position:absolute;z-index:1;right:12px;bottom:15px;background:#0b1724bd;color:#eaf8f4;border-color:#ffffff35}
+.academy-card-body{position:relative}
+.academy-card-tag{color:#69e7ba}
+.academy-skills span{background:#ffffff0b;color:#c7dce4}
+.academy-chip{backdrop-filter:blur(12px);background:#172c3dcc}
+.academy-chip.active{background:linear-gradient(100deg,#10b98145,#3988db35);color:#8af0c8;box-shadow:0 5px 20px #10b98118}
+.academy-search,.academy-toolbar select{backdrop-filter:blur(14px);background:#14283bdd}
+.academy-search:focus-within{border-color:#55d6a3;box-shadow:0 0 0 3px #10b98122}
+.academy-dialog{border:1px solid #55d6a366;background:linear-gradient(145deg,#112638f5,#0d1b2af5);backdrop-filter:blur(22px);box-shadow:0 30px 100px #0009}
+.academy-dialog::backdrop{background:#020914c9;backdrop-filter:blur(8px)}
+.academy-primary{background:linear-gradient(110deg,#10b981,#35c9b1);color:#05251e;border:0;border-radius:10px;padding:11px 15px;font-weight:700}
+.academy-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.academy-quiet{border:1px solid #ffffff24;background:#ffffff0a;color:var(--text);border-radius:10px;padding:10px 13px}
+.reader-lesson.active{background:#10b98124;border-color:#10b98170;color:#8af0c8}
+@media(max-width:760px){.academy-hero{padding:25px 20px}.academy-orbit-art{display:none}.academy-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.academy-card{padding:13px}.academy-cover{margin:-13px -13px 12px;height:100px}.academy-card h3{font-size:15px}.academy-card>p{min-height:0}.academy-toolbar{grid-template-columns:1fr}.academy-results{align-items:start;gap:8px;flex-direction:column}}
+@media(max-width:430px){.academy-grid{grid-template-columns:1fr}.academy-cover{height:135px}.academy-hero-stats{gap:12px}}
+@media(prefers-reduced-motion:reduce){.academy-orbit-ring,.academy-orbit-core{animation:none!important}.academy-card,.academy-cover img,.academy-primary{transition:none!important}}

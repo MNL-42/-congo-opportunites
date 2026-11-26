@@ -226,3 +226,178 @@ html.light-mode .visual-sources-content h3{color:#183347}
 @media(max-width:1050px){.rdc-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.rdc-gallery{padding:15px;margin-top:30px}.rdc-photo-grid{gap:9px}.rdc-photo-card{min-height:160px}.photo-caption{left:10px;right:10px;bottom:9px}.photo-caption strong{font-size:12px}.gallery-heading{align-items:flex-start}.gallery-count{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.rdc-photo-card,.rdc-photo-card img{transition:none}}
+
+
+/* =========================================================
+   CONGO OPPORTUNITÉS — REFONTE VISUELLE RDC
+   Thème de marque fourni : bleu nuit, vert, jaune et rouge.
+   Cette couche harmonise toutes les vues sans toucher à la logique.
+   ========================================================= */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+:root{
+  --navy:#0b1724; --navy-2:#10283a; --navy-3:#17354c;
+  --yellow:#FCD116; --green:#0A9B4B; --red:#CE1126;
+  --ink:#eaf1f7; --muted:#9fb3c4; --line:rgba(255,255,255,.10);
+  --card:rgba(255,255,255,.05);
+  --font-title:"Bricolage Grotesque",system-ui,sans-serif;
+  --font-body:"Plus Jakarta Sans",system-ui,sans-serif;
+  --radius-lg:24px; --radius-md:14px; --radius-sm:8px;
+  --bg:var(--navy); --panel:var(--navy-2); --panel2:var(--navy-3);
+  --text:var(--ink); --green2:#48d18a;
+  --shadow:0 20px 60px rgba(0,0,0,.28);
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--ink);font-family:var(--font-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.topbar-title strong,.brand-copy strong,.quick-card strong,.feature-banner h2,.page-intro h1{font-family:var(--font-title);letter-spacing:-.025em}
+p{color:var(--muted)}
+a{color:var(--yellow)}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+::selection{background:var(--yellow);color:var(--navy)}
+
+/* Marque et navigation */
+.sidebar{background:linear-gradient(180deg,var(--navy-2),#0b1b29 82%);border-right:1px solid var(--line)}
+.brand{gap:13px;padding-bottom:34px}
+.brand-mark{width:48px;height:48px;border-radius:15px;background:transparent;box-shadow:0 9px 28px #0004;overflow:hidden;flex:none}
+.brand-mark img{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit}
+.brand-copy strong{font-size:16px;letter-spacing:1.5px}
+.brand-copy small{color:var(--yellow);letter-spacing:2px}
+.sidebar-label{color:#91a9bb}
+.nav-link{border-radius:var(--radius-md);color:#c2d0db;padding:12px 14px}
+.nav-link:hover{background:rgba(255,255,255,.07);color:var(--ink)}
+.nav-link.active{background:var(--yellow);color:var(--navy);box-shadow:0 8px 22px rgba(252,209,22,.13);font-weight:700}
+.nav-link.active .nav-icon{color:var(--navy)}
+.help-card{border-color:rgba(10,155,75,.38);background:linear-gradient(145deg,rgba(10,155,75,.19),rgba(16,40,58,.86))}
+.help-icon,.help-card strong{color:var(--yellow)}
+.sidebar-footer{color:#91a9bb}
+
+/* Barre supérieure et surfaces */
+.topbar{background:rgba(11,23,36,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(20px)}
+.topbar-title .eyebrow,.eyebrow{color:#9fb3c4}
+.eyebrow.green,.green{color:var(--green2)}
+.icon-button,.user-chip{background:var(--navy-2);border:1px solid var(--line);color:var(--ink);border-radius:var(--radius-md)}
+.icon-button:hover{border-color:var(--yellow);color:var(--yellow);transform:translateY(-2px)}
+.avatar{background:var(--green);color:white}
+.content-wrap{max-width:1500px}
+
+/* Grand bandeau d'accueil */
+.welcome-row{border:1px solid rgba(252,209,22,.22);border-radius:var(--radius-lg);
+  background:radial-gradient(650px 330px at 95% 0%,rgba(10,155,75,.27),transparent 65%),
+  radial-gradient(520px 300px at 100% 100%,rgba(252,209,22,.15),transparent 65%),
+  linear-gradient(135deg,var(--navy-2),var(--navy-3));box-shadow:var(--shadow)}
+.welcome-row h1{font-size:clamp(38px,5vw,60px);font-weight:800;line-height:1.04}
+.welcome-row h1 span{color:var(--yellow)}
+.lead,.page-intro p{color:#c0cfda}
+.hero-symbol{width:154px;height:154px;border-radius:35px;border:1px solid rgba(252,209,22,.38);
+  background:rgba(11,23,36,.72);box-shadow:0 25px 70px #0007,inset 0 1px #ffffff22;overflow:hidden}
+.hero-symbol img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-glow{background:rgba(10,155,75,.26)}
+.orbit{border-color:rgba(252,209,22,.24)}
+.floating-tag{background:rgba(11,23,36,.9);border:1px solid rgba(252,209,22,.25);color:var(--ink);border-radius:var(--radius-sm)}
+.tag-top b{color:var(--yellow)}
+.tag-bottom i,.status-key i{background:var(--green)}
+
+/* Boutons : jaune principal, vert secondaire */
+.primary-button,button.primary-button,.btn{background:var(--yellow);color:var(--navy);border:1px solid transparent;border-radius:999px;
+  box-shadow:0 9px 26px rgba(252,209,22,.17);font-weight:800}
+.primary-button:hover,.btn:hover{background:#ffe15a;color:var(--navy);box-shadow:0 12px 30px rgba(252,209,22,.25);transform:translateY(-2px)}
+.secondary-button{background:rgba(10,155,75,.15);color:#72e5a7;border:1px solid rgba(10,155,75,.45);border-radius:999px}
+.secondary-button:hover{background:var(--green);color:#fff}
+.text-button{color:var(--yellow)}
+.text-button:hover{color:#fff}
+
+/* Cartes et grilles */
+.quick-card,.card,.course-card,.opportunity-card,.project-card,.feature-card,.empty-state,.filter-panel,
+.profile-panel,.profile-edit-form,.notice-line,.rdc-gallery,.academy-card{
+  border-radius:var(--radius-md);border-color:var(--line)
+}
+.quick-card{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:20px}
+.quick-card:hover{border-color:rgba(252,209,22,.58);background:rgba(252,209,22,.055);box-shadow:0 18px 38px rgba(0,0,0,.22);transform:translateY(-4px)}
+.quick-card strong{font-size:16px}
+.quick-card small{color:var(--muted)}
+.quick-icon.mint,.quick-icon.blue,.quick-icon.violet,.quick-icon.gold{background:rgba(10,155,75,.17);color:var(--green2);border:1px solid rgba(10,155,75,.2)}
+.card-arrow{color:var(--yellow)}
+.section-heading h2{font-family:var(--font-title);font-weight:700}
+.section-heading .eyebrow{color:var(--yellow)}
+.empty-state{background:rgba(255,255,255,.025);border:1px dashed rgba(252,209,22,.25)}
+.empty-icon{color:var(--yellow)}
+.notice-line{background:rgba(10,155,75,.09);border:1px solid rgba(10,155,75,.24);color:#c6d8e2;border-radius:var(--radius-md)}
+.notice-line>span{color:var(--yellow)}
+
+/* Pages catalogue, filtres, cours et contenu */
+.page-intro h1{color:var(--ink);font-weight:800}
+.filter-panel{background:var(--navy-2);border:1px solid var(--line);padding:18px}
+.filter-panel select,.search-field input,select,input,textarea{
+  background:var(--navy-2);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius-md)
+}
+.filter-panel select:focus,.search-field input:focus,input:focus,select:focus,textarea:focus{
+  border-color:var(--yellow);box-shadow:0 0 0 3px rgba(252,209,22,.12);outline:none
+}
+.course-grid>* ,.course-card,.opportunity-card,.project-card,.academy-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-md)
+}
+.course-grid>*:hover,.course-card:hover,.opportunity-card:hover,.project-card:hover{
+  border-color:rgba(252,209,22,.48)
+}
+.badge,.chip,.status-badge{border-radius:999px}
+.badge,.chip{background:rgba(10,155,75,.18);color:#68e5a1}
+.badge.warn{background:rgba(252,209,22,.15);color:var(--yellow)}
+.feature-banner{border-radius:var(--radius-lg);border:1px solid rgba(252,209,22,.25);
+  background:radial-gradient(circle at 85% 20%,rgba(10,155,75,.25),transparent 35%),linear-gradient(130deg,var(--navy-2),var(--navy-3))}
+.feature-banner h2{color:var(--ink)}
+.feature-symbol{color:var(--yellow)}
+
+/* Profil, formulaires et connexion */
+.profile-panel,.profile-edit-form{background:linear-gradient(145deg,rgba(16,40,58,.96),rgba(23,53,76,.75));border:1px solid var(--line);border-radius:var(--radius-lg)}
+.auth-dialog,.academy-dialog,.modal{background:var(--navy-2);color:var(--ink);border:1px solid rgba(252,209,22,.24);border-radius:var(--radius-lg);box-shadow:0 30px 90px #0009}
+.auth-dialog::backdrop,.academy-dialog::backdrop{background:rgba(2,8,14,.78);backdrop-filter:blur(7px)}
+.dialog-brand{width:64px;height:64px;border-radius:18px;overflow:hidden;background:transparent;box-shadow:0 12px 32px #0005}
+.dialog-brand img{width:100%;height:100%;display:block;object-fit:cover}
+.dialog-close,.academy-dialog-close{background:rgba(255,255,255,.06);color:var(--ink);border:1px solid var(--line);border-radius:12px}
+.google-button,.btn-google{background:#fff;color:#1f1f1f;border-radius:999px}
+.auth-note a{color:var(--yellow)}
+.auth-field input,.auth-field textarea,.profile-edit-form .auth-field input,.profile-edit-form .auth-field textarea{
+  background:rgba(255,255,255,.055);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius-md)
+}
+.auth-field input:focus,.auth-field textarea:focus{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(252,209,22,.13)}
+.auth-links button{color:var(--yellow)}
+.auth-message.success,.profile-edit-form #profileSaveMessage.success{color:#68e5a1}
+
+/* Galerie et bas de page */
+.rdc-gallery{background:linear-gradient(145deg,rgba(10,155,75,.12),rgba(16,40,58,.72));border-color:rgba(252,209,22,.2)}
+.gallery-count{border-color:rgba(252,209,22,.32);color:var(--yellow)}
+.rdc-photo-card{border-radius:var(--radius-md)}
+.rdc-photo-card:hover{border-color:var(--yellow)}
+.photo-placeholder{background:radial-gradient(circle at 25% 25%,rgba(252,209,22,.2),transparent 40%),linear-gradient(145deg,#12432f,#10283a 65%,#3b2430)}
+.photo-placeholder span{color:#fff0b0;border-color:rgba(252,209,22,.45)}
+.photo-caption small,.visual-sources summary{color:var(--yellow)}
+.visual-sources-content a:hover{color:var(--yellow)}
+.main-footer{border-top:1px solid var(--line);color:var(--muted)}
+.main-footer a{color:var(--yellow)}
+.footer-legal a:hover{color:var(--green2)}
+html.light-mode body{background:#edf3f6;color:#14283a}
+html.light-mode .sidebar{background:#10283a}
+html.light-mode .topbar{background:rgba(237,243,246,.94)}
+html.light-mode .topbar-title strong,html.light-mode .icon-button,html.light-mode .user-chip{color:#14283a}
+html.light-mode .quick-card,html.light-mode .empty-state,html.light-mode .filter-panel{background:#fff;color:#14283a}
+html.light-mode .quick-card small,html.light-mode .lead{color:#536b7d}
+html.light-mode .profile-panel,html.light-mode .profile-edit-form,html.light-mode .auth-dialog{background:#fff;color:#14283a}
+html.light-mode input,html.light-mode select,html.light-mode textarea{background:#fff;color:#14283a}
+@media(max-width:860px){
+  .welcome-row{padding:clamp(24px,5vw,42px)}
+  .welcome-row h1{font-size:clamp(34px,7vw,48px)}
+  .hero-art{margin-right:0}
+}
+@media(max-width:760px){
+  .sidebar{background:var(--navy-2)}
+  .nav-link.active{box-shadow:inset 0 -3px var(--red),0 8px 18px rgba(252,209,22,.12)}
+  .content-wrap{padding-bottom:34px}
+  .welcome-row{min-height:260px}
+  .quick-card{padding:14px}
+  .rdc-gallery{padding:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+

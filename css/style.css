@@ -233,7 +233,6 @@ html.light-mode .visual-sources-content h3{color:#183347}
    Thème de marque fourni : bleu nuit, vert, jaune et rouge.
    Cette couche harmonise toutes les vues sans toucher à la logique.
    ========================================================= */
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 
 :root{
   --navy:#0b1724; --navy-2:#10283a; --navy-3:#17354c;

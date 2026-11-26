@@ -4,3 +4,24 @@
 
 @media(max-width:760px){.sidebar{overflow-y:auto}.main-footer{font-size:12px}.main-footer span:nth-child(2){display:inline}.footer-legal{width:100%;gap:12px}}
 @media(max-width:380px){.icon-button{width:44px;height:44px;min-width:44px;min-height:44px}}
+
+/* Ajustements du nouveau thème RDC */
+@media(max-width:860px){
+  .sidebar{width:min(285px,85vw)}
+  .main-area{margin-left:0}
+  .topbar{padding-inline:18px}
+  .content-wrap{padding-inline:clamp(14px,4vw,28px)}
+}
+@media(max-width:760px){
+  .brand{padding-bottom:24px}
+  .welcome-row{border-radius:20px}
+  .hero-art{opacity:.28}
+  .rdc-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .main-footer{gap:9px}
+}
+@media(max-width:420px){
+  .rdc-photo-grid{grid-template-columns:1fr 1fr}
+  .rdc-photo-card{min-height:150px}
+  .user-chip{min-width:40px}
+}
+

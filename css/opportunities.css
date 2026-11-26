@@ -1,0 +1,19 @@
+/* Cartes d'opportunités — thème Congo Opportunités */
+.opportunity-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));margin-top:16px}
+.opportunity-card{border:1px solid var(--line);border-radius:var(--radius-md);padding:20px;background:var(--card);display:flex;flex-direction:column;gap:10px;min-width:0;transition:transform .2s,border-color .2s,box-shadow .2s}
+.opportunity-card:hover{transform:translateY(-3px);border-color:rgba(252,209,22,.5);box-shadow:0 14px 32px #0003}
+.opportunity-card h3{margin:0;font:700 1.2rem/1.25 var(--font-title);color:var(--ink)}
+.opportunity-card p{margin:0;overflow-wrap:anywhere}
+.opp-meta,.opp-source{color:var(--muted);font-size:.88rem}
+.opp-deadline strong{color:var(--yellow)}
+.opp-source{margin-top:4px}
+.opp-source a{color:var(--green2);text-decoration:underline;text-underline-offset:3px}
+.opportunity-card .lesson-actions{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px;padding-top:12px}
+.opportunity-card .lesson-actions a,.opportunity-card .lesson-actions button{font:600 .84rem var(--font-body);border-radius:999px}
+.opportunity-card [aria-pressed="true"]{color:var(--yellow);border-color:rgba(252,209,22,.5)}
+.opportunity-grid:empty{display:none}
+#opportunityList[aria-busy="true"]{opacity:.6}
+html.light-mode .opportunity-card{border-color:rgba(15,40,58,.14);background:#fff}
+html.light-mode .opportunity-card h3{color:#14283a}
+html.light-mode .opp-meta,html.light-mode .opp-source{color:#536b7d}
+@media(max-width:520px){.opportunity-grid{grid-template-columns:1fr}.opportunity-card{padding:17px}}

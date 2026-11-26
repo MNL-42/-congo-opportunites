@@ -5,8 +5,8 @@ const CORE = [
  "./css/style.css?v=20261126-6","./css/responsive.css?v=20261126-6","./css/opportunities.css?v=20261126-6",
  "./js/config.js","./js/auth.js","./js/app.js","./js/courses/catalogue.js","./js/course-content.js",
  "./js/course-content-extra.js","./js/academy.js","./js/opportunities.js","./js/pwa-install.js",
- "./data/opportunities.json","./assets/icons/icon.svg","./assets/icons/icon-192.png",
- "./assets/icons/icon-512.png","./assets/icons/maskable-512.png","./assets/og-cover.svg"
+ "./data/opportunities.json","./assets/icons/icon.svg","./assets/icons/icon-180.png","./assets/icons/icon-192.png",
+ "./assets/icons/icon-512.png","./assets/icons/maskable-512.png","./assets/og-cover.svg","./assets/og-cover.png"
 ];
 self.addEventListener("install",event=>{
  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE)));

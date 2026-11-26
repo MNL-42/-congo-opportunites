@@ -61,6 +61,54 @@
     });
   }
 
+
+  async function syncProfile(session){
+    if(!client || !session?.user) return;
+    const user=session.user;
+    const fallback=String(user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Membre").slice(0,70);
+    const {data:profile,error}=await client.from("profiles").select("display_name,username,bio,city").eq("id",user.id).maybeSingle();
+    if(error){console.warn("Profil indisponible:",error.message);return;}
+    const name=profile?.display_name || fallback;
+    const nameNode=$("#profileName"), emailNode=$("#profileEmail");
+    if(nameNode) nameNode.textContent=name;
+    if(emailNode) emailNode.textContent=user.email || "";
+    if(!$("#profileEditForm")){
+      const panel=$(".profile-panel");
+      if(panel){
+        const form=document.createElement("form");
+        form.id="profileEditForm"; form.className="profile-edit-form";
+        form.innerHTML=`
+          <label class="auth-field">Nom affiché<input name="display_name" maxlength="70" required></label>
+          <label class="auth-field">Nom d’utilisateur<input name="username" maxlength="30" pattern="[A-Za-z0-9_]{3,30}" placeholder="ex. manasse_01"></label>
+          <label class="auth-field">Ville / province<input name="city" maxlength="80" placeholder="Kinshasa"></label>
+          <label class="auth-field">Présentation<textarea name="bio" maxlength="280" rows="3" placeholder="Présente-toi en quelques mots"></textarea></label>
+          <button class="primary-button" type="submit">Enregistrer mon profil</button>
+          <p class="auth-message" id="profileSaveMessage" role="status"></p>`;
+        panel.insertAdjacentElement("afterend",form);
+        form.addEventListener("submit",async e=>{
+          e.preventDefault();
+          const data=new FormData(form);
+          const save=form.querySelector("button[type=submit]");
+          const status=$("#profileSaveMessage");
+          save.disabled=true; save.textContent="Enregistrement…";
+          const payload={id:user.id,display_name:String(data.get("display_name")||"").trim(),username:String(data.get("username")||"").trim().toLowerCase()||null,city:String(data.get("city")||"").trim(),bio:String(data.get("bio")||"").trim(),updated_at:new Date().toISOString()};
+          const {error}=await client.from("profiles").upsert(payload,{onConflict:"id"});
+          save.disabled=false; save.textContent="Enregistrer mon profil";
+          if(error){status.textContent=error.code==="23505"?"Ce nom d’utilisateur est déjà utilisé.":error.message;status.classList.remove("success");return;}
+          if(nameNode) nameNode.textContent=payload.display_name;
+          status.textContent="Profil enregistré.";status.classList.add("success");
+        });
+      }
+    }
+    const form=$("#profileEditForm");
+    if(form){
+      form.elements.display_name.value=name;
+      form.elements.username.value=profile?.username||"";
+      form.elements.city.value=profile?.city||"";
+      form.elements.bio.value=profile?.bio||"";
+    }
+  }
+
   function toggleMode(){
     mode=mode==="login"?"signup":"login";
     const form=$("#emailAuthForm");
@@ -117,7 +165,7 @@
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",installAuthForm); else installAuthForm();
   if(client){
     client.auth.onAuthStateChange((event,session)=>{
-      document.dispatchEvent(new CustomEvent("congo-auth-state",{detail:{event,session}}));
+      document.dispatchEvent(new CustomEvent("congo-auth-state",{detail:{event,session}}));\n      if(session?.user) syncProfile(session); else { const f=$("#profileEditForm"); if(f) f.remove(); }
       if(event==="PASSWORD_RECOVERY"){
         const f=$("#passwordRecoveryForm"), login=$("#emailAuthForm");
         if(f&&login){f.hidden=false;login.hidden=true;open();}

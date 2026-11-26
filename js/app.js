@@ -6,7 +6,7 @@
   const sidebar = $("#sidebar"), overlay = $("#mobileOverlay"), dialog = $("#authDialog");
 
   function showView(name) {
-    if (!views.includes(name)) return;
+    if (!views.includes(name) || !$("#view-" + name)) return;
     if (dialog.open) dialog.close();
     $(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + name));
     $$(".nav-link[data-view]").forEach(b => { const active=b.dataset.view===name; b.classList.toggle("active",active); if(active)b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
@@ -18,8 +18,9 @@
   }
 
   document.addEventListener("click", event => {
-    const nav = event.target.closest("[data-view]");
-    const target = event.target.closest("[data-go]");
+    const origin = event.target instanceof Element ? event.target : event.target.parentElement;
+    const nav = origin?.closest("[data-view]");
+    const target = origin?.closest("[data-go]");
     if (nav) showView(nav.dataset.view);
     if (target) showView(target.dataset.go);
   });
@@ -85,8 +86,12 @@
   [category, province].forEach(control => control?.addEventListener("change", updateSearchState));
 
   const initialView = location.hash.replace("#", "");
-  if (views.includes(initialView)) showView(initialView);
+  if (views.includes(initialView) && $("#view-" + initialView)) showView(initialView);
   else showView("accueil");
+  window.addEventListener("hashchange", () => {
+    const next = location.hash.slice(1);
+    if (views.includes(next) && $("#view-" + next)) showView(next);
+  });
 
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));

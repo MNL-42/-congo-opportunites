@@ -63,6 +63,7 @@
     $("#profileAvatar").textContent = initials;
     $("#profileName").textContent = user ? name : "Profil non connecté";
     $("#profileEmail").textContent = user?.email || "Connecte-toi pour commencer ton profil.";
+    const signOutButton = $("#profileSignOut"); if (signOutButton) signOutButton.hidden = !user;
     if (user && dialog.open) dialog.close();
   }
 

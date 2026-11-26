@@ -165,7 +165,8 @@
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",installAuthForm); else installAuthForm();
   if(client){
     client.auth.onAuthStateChange((event,session)=>{
-      document.dispatchEvent(new CustomEvent("congo-auth-state",{detail:{event,session}}));\n      if(session?.user) syncProfile(session); else { const f=$("#profileEditForm"); if(f) f.remove(); }
+      document.dispatchEvent(new CustomEvent("congo-auth-state",{detail:{event,session}}));
+      if(session?.user) syncProfile(session); else { const f=$("#profileEditForm"); if(f) f.remove(); }
       if(event==="PASSWORD_RECOVERY"){
         const f=$("#passwordRecoveryForm"), login=$("#emailAuthForm");
         if(f&&login){f.hidden=false;login.hidden=true;open();}

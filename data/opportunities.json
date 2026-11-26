@@ -1,0 +1,17 @@
+{
+  "_regles": "Une annonce = un objet dans items. Ne jamais publier sans source officielle (source_url), lien pour postuler (apply_url) et date de vérification (verified_on). Catégories autorisées : Bourse, Formation, Stage, Emploi, Concours, Volontariat, Appels à projets, Hackathons, Conférences. Province : utiliser une valeur du filtre du site, ou National, En ligne, International.",
+  "_modele": {
+    "id": "bourse-exemple-2027",
+    "title": "Titre exact de l'annonce",
+    "organization": "Organisme officiel",
+    "category": "Bourse",
+    "province": "International",
+    "summary": "Deux phrases claires : pour qui, et ce qui est offert.",
+    "deadline": "2027-03-31",
+    "source_name": "Site officiel de l'organisme",
+    "source_url": "https://example.org/annonce",
+    "apply_url": "https://example.org/candidature",
+    "verified_on": "2026-11-26"
+  },
+  "items": []
+}

@@ -25,3 +25,13 @@
   .user-chip{min-width:40px}
 }
 
+
+/* Lisibilité des annonces et du contact sur petits écrans */
+.home-opportunity-grid{margin-top:14px}
+.opportunity-card{min-width:0}
+.opportunity-card h3,.opportunity-card p{overflow-wrap:anywhere}
+.opportunity-card .lesson-actions>*{max-width:100%}
+@media(max-width:420px){
+  .opportunity-card .lesson-actions{align-items:stretch}
+  .opportunity-card .lesson-actions a,.opportunity-card .lesson-actions button{min-height:40px;display:inline-flex;align-items:center;justify-content:center}
+}

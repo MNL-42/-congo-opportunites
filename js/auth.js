@@ -142,7 +142,7 @@
         if(error) throw error;
         message("Connexion réussie.",true);
       }
-    }catch(err){message(err.message||"Une erreur est survenue.");}
+    }catch(err){message(({"Invalid login credentials":"E-mail ou mot de passe incorrect.","User already registered":"Ce compte existe déjà : touche « J’ai déjà un compte »."})[err.message]||err.message||"Une erreur est survenue.");}
     finally{submit.disabled=false;submit.textContent=mode==="signup"?"Créer mon compte":"Se connecter";}
   }
 

@@ -20,6 +20,11 @@
   .box{display:grid;gap:10px;margin:16px 0}
   .box input,.box textarea{width:100%;padding:12px;border-radius:12px;border:1px solid #8886;background:#8881;color:inherit;font:inherit}
   #profileAvatar.has-photo,#avatarInitials.has-photo{background-size:cover!important;background-position:center!important;color:transparent!important}
+  .idea{border:1px solid #8884;background:#8881;border-radius:16px;padding:14px;overflow-wrap:anywhere}
+  .idea h3{margin:0}.idea p{white-space:pre-wrap}.idea small{opacity:.7}
+  .idea-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .idea-actions button{border:1px solid #8886;background:none;color:inherit;border-radius:30px;padding:8px 14px;font:inherit;font-size:14px}
+  .idea-actions button.on{color:#ffd31a;border-color:#ffd31a}
   ` }));
 
   // Barre de navigation (app.js gère déjà les clics [data-view])
@@ -67,27 +72,71 @@
     }
   }, true);
 
-  // Idées
+  // Idées publiques, « J'aime » et partage
   const ideas = el("div");
   ideas.innerHTML = `<form class="box"><input name="title" required maxlength="100" placeholder="Titre de ton idée ou projet">
     <textarea name="details" required maxlength="1000" rows="4" placeholder="Explique ton idée"></textarea>
-    <button class="primary-button" type="submit">Envoyer mon idée</button><p role="status"></p></form><div class="box" data-list></div>`;
+    <small>Ton idée et ton nom seront visibles par tout le monde.</small>
+    <button class="primary-button" type="submit">Publier mon idée</button><p role="status"></p></form><div class="box" data-list></div>`;
   $("#view-projets .page-intro")?.after(ideas);
   const form = ideas.querySelector("form"), status = form.querySelector("p"), list = ideas.querySelector("[data-list]");
+  const needLogin = text => { window.CongoAuth?.open(); const m = $("#authMessage"); if (m) m.textContent = text; };
+
   async function loadIdeas() {
-    list.replaceChildren();
-    if (!user) return;
-    const { data } = await client.from("opportunity_submissions").select("title,status").order("created_at", { ascending: false });
-    (data || []).forEach(d => list.append(el("p", { textContent: "💡 " + d.title + " — " + ({pending:"en attente",approved:"approuvée",rejected:"refusée"}[d.status] || "envoyée") })));
+    if (!client) return;
+    const { data, error } = await client.from("ideas")
+      .select("id,user_id,author_name,title,details,created_at,idea_likes(user_id)")
+      .order("created_at", { ascending: false }).limit(50);
+    if (error) { list.textContent = "Impossible de charger les idées."; return; }
+    list.replaceChildren(...data.map(card));
+    if (!data.length) list.textContent = "Sois le premier à publier une idée.";
   }
+
+  function card(d) {
+    const likes = d.idea_likes || [], liked = !!user && likes.some(l => l.user_id === user.id);
+    const box = el("article", { className: "idea" });
+    box.append(el("h3", { textContent: d.title }),
+      el("small", { textContent: d.author_name + " · " + new Date(d.created_at).toLocaleDateString("fr-FR") }),
+      el("p", { textContent: d.details }));
+    const actions = el("div", { className: "idea-actions" });
+    const button = (text, action, on) => {
+      const b = el("button", { type: "button", textContent: text, className: on ? "on" : "" });
+      b.addEventListener("click", () => action(b));
+      actions.append(b);
+    };
+    button((liked ? "♥ " : "♡ ") + "J’aime " + likes.length, async b => {
+      if (!user) return needLogin("Connecte-toi pour aimer une idée.");
+      b.disabled = true;
+      const table = client.from("idea_likes");
+      await (liked ? table.delete().match({ idea_id: d.id, user_id: user.id }) : table.insert({ idea_id: d.id }));
+      loadIdeas();
+    }, liked);
+    button("Partager", () => {
+      const url = location.origin + location.pathname + "#projets";
+      const text = "Idée sur Congo Opportunités : " + d.title;
+      if (navigator.share) navigator.share({ text, url }).catch(() => {});
+      else window.open("https://wa.me/?text=" + encodeURIComponent(text + " " + url), "_blank", "noopener");
+    });
+    if (user && user.id === d.user_id) button("Supprimer", async () => {
+      if (!confirm("Supprimer cette idée ?")) return;
+      await client.from("ideas").delete().eq("id", d.id);
+      loadIdeas();
+    });
+    box.append(actions);
+    return box;
+  }
+
   form.addEventListener("submit", async e => {
     e.preventDefault();
-    if (!user) { window.CongoAuth?.open(); status.textContent = "Connecte-toi pour envoyer ton idée."; return; }
-    const f = new FormData(form);
-    const { error } = await client.from("opportunity_submissions").insert({ user_id: user.id, title: f.get("title").trim(), details: f.get("details").trim() });
-    status.textContent = error ? "Envoi impossible. Réessaie." : "Idée envoyée ✅";
+    if (!user) return needLogin("Connecte-toi pour publier ton idée.");
+    const f = new FormData(form), send = form.querySelector("button");
+    send.disabled = true;
+    const { error } = await client.from("ideas").insert({ title: f.get("title").trim(), details: f.get("details").trim() });
+    send.disabled = false;
+    status.textContent = error ? "Publication impossible. Réessaie." : "Idée publiée.";
     if (!error) { form.reset(); loadIdeas(); }
   });
+  $(".bottom-bar [data-view=projets]")?.addEventListener("click", loadIdeas);
 
   // Photo de profil
   const photo = el("label", { className: "box", hidden: true });

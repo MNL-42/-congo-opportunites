@@ -1,10 +1,10 @@
-/* Service worker v18 — réseau d'abord pour les contenus, cache de secours hors-ligne. */
-const CACHE_NAME = "congo-opportunites-v18";
+/* Service worker v19 — réseau d'abord pour les contenus, cache de secours hors-ligne. */
+const CACHE_NAME = "congo-opportunites-v19";
 const CORE = [
  "./","./index.html","./manifest.json",
  "./css/style.css?v=20261127-1","./css/responsive.css?v=20261127-1","./css/opportunities.css?v=20261127-1",
  "./js/config.js","./js/auth.js","./js/app.js","./js/courses/catalogue.js","./js/course-content.js",
- "./js/course-content-extra.js","./js/academy.js","./js/opportunities.js","./js/pwa-install.js","./js/extras.js?v=2",
+ "./js/course-content-extra.js","./js/academy.js","./js/opportunities.js","./js/pwa-install.js","./js/extras.js?v=3",
  "./data/opportunities.json","./assets/icons/icon.svg","./assets/icons/icon-180.png","./assets/icons/icon-192.png",
  "./assets/icons/icon-512.png","./assets/icons/maskable-512.png","./assets/og-cover.svg","./assets/og-cover.png"
 ];

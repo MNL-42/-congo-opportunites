@@ -7,9 +7,9 @@
   let user = null;
 
   document.head.appendChild(el("style", { textContent: `
-  .bottom-bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;justify-content:space-around;background:#0b1724f2;border-top:1px solid #ffffff22;padding:6px 0 calc(6px + env(safe-area-inset-bottom))}
+  .bottom-bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;justify-content:space-around;background:#0b1724;border-top:1px solid #ffffff22;padding:6px 0 calc(6px + env(safe-area-inset-bottom))}
   .bottom-bar button{background:none;border:0;color:#cfe0ec;font:600 11px system-ui;display:grid;gap:2px;justify-items:center;min-width:60px}
-  .bottom-bar b{font-size:20px}
+  .bottom-bar svg{width:22px;height:22px}.bottom-bar button.active{color:#ffd31a}
   @media(max-width:760px){.bottom-bar{display:flex}body{padding-bottom:70px}}
   .tuto{position:fixed;inset:0;z-index:1000}
   .tuto-ring{position:fixed;border:3px solid #ffd31a;border-radius:14px;box-shadow:0 0 0 9999px #000b}
@@ -24,9 +24,12 @@
 
   // Barre de navigation (app.js gère déjà les clics [data-view])
   const bar = el("nav", { className: "bottom-bar" });
-  bar.innerHTML = [["accueil","🏠","Accueil"],["decouvrir","🔎","Offres"],["academie","📚","Cours"],["projets","💡","Idées"],["profil","👤","Profil"]]
-    .map(([v,i,t]) => `<button type="button" data-view="${v}"><b>${i}</b>${t}</button>`).join("");
+  bar.innerHTML = [["accueil","Accueil"],["decouvrir","Offres"],["academie","Cours"],["projets","Idées"],["profil","Profil"]]
+    .map(([v,t]) => `<button type="button" data-view="${v}">${$(`.nav-link[data-view="${v}"] svg`)?.outerHTML || ""}${t}</button>`).join("");
   document.body.appendChild(bar);
+  const mark = () => bar.querySelectorAll("button").forEach(b => b.classList.toggle("active", !!$(`#view-${b.dataset.view}.active`)));
+  document.querySelectorAll(".view").forEach(v => new MutationObserver(mark).observe(v, { attributeFilter: ["class"] }));
+  mark();
 
   // Tutoriel à la première ouverture
   function tutorial() {

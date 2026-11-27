@@ -73,18 +73,7 @@
   }
   $("#year").textContent = new Date().getFullYear();
 
-  const search = $("#searchInput");
-  const category = $("#categoryFilter");
-  const province = $("#provinceFilter");
-  const count = $("#resultsCount");
-  function updateSearchState() {
-    const hasFilter = Boolean(search.value.trim() || category.value || province.value);
-    count.textContent = hasFilter
-      ? "Filtres enregistrés — les annonces seront consultables dès l’activation du catalogue."
-      : "Aucune annonce chargée";
-  }
-  [search, category, province].forEach(control => control?.addEventListener("input", updateSearchState));
-  [category, province].forEach(control => control?.addEventListener("change", updateSearchState));
+  // Le catalogue js/opportunities.js gère seul les filtres et le compteur.
 
   const initialView = location.hash.replace("#", "");
   if (views.includes(initialView) && $("#view-" + initialView)) showView(initialView);
